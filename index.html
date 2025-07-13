@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>時代加密貨幣所（M.C.I）</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <img src="logo.png" alt="MCI Logo" class="logo" />
+    <nav>
+      <a href="#order">立即下單</a>
+      <a href="#upload">上傳憑證</a>
+      <a href="#contact">聯絡客服</a>
+    </nav>
+  </header>
+
+  <section class="banner">
+    <h1>安全快速閃兑主流加密貨幣</h1>
+    <p>僅接受新台幣匯款、ATM 轉帳與加密貨幣付款</p>
+  </section>
+
+  <section id="order" class="order-section">
+    <h2>買 / 賣加密貨幣</h2>
+    <form id="trade-form">
+      <label><input type="radio" name="action" value="buy" checked> 我要買</label>
+      <label><input type="radio" name="action" value="sell"> 我要賣</label>
+
+      <select id="crypto-select">
+        <option value="BTC">比特幣 (BTC)</option>
+        <option value="ETH">以太幣 (ETH)</option>
+        <option value="USDT">泰達幣 (USDT)</option>
+        <option value="BNB">幣安幣 (BNB)</option>
+        <option value="XRP">瑞波幣 (XRP)</option>
+        <option value="DOGE">狗狗幣 (DOGE)</option>
+      </select>
+
+      <input type="number" id="twd-amount" placeholder="輸入新台幣金額" required />
+      <div id="converted-price">預估可兌換：--</div>
+
+      <input type="text" id="wallet-address" placeholder="你的錢包地址" required />
+      <button type="submit">立即閃兑下單</button>
+    </form>
+  </section>
+
+  <section id="upload" class="upload-section">
+    <h2>上傳付款/轉帳證明</h2>
+    <input type="file" accept="image/*" />
+    <textarea placeholder="備註訊息 (選填)"></textarea>
+    <button>提交證明</button>
+  </section>
+
+  <footer id="contact">
+    <p>聯絡我們：LINE / Telegram</p>
+    <p>© 2025 M.C.I 時代加密貨幣所</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

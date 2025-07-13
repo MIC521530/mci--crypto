@@ -1,0 +1,8 @@
+
+body { font-family: sans-serif; margin: 0; background: #f9f9f9; color: #333; }
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #111; color: white; }
+.logo { height: 40px; }
+nav a { margin-left: 1rem; color: white; text-decoration: none; }
+.banner { padding: 4rem 2rem; text-align: center; background: #222; color: white; }
+.order-section, .upload-section { padding: 2rem; background: white; margin: 2rem; border-radius: 8px; }
+footer { padding: 2rem; background: #111; color: white; text-align: center; }
