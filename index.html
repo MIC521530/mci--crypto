@@ -37,7 +37,7 @@
       </select>
 
       <input type="number" id="twd-amount" placeholder="輸入新台幣金額" required />
-      <div id="converted-price">預估可兌換：--</div>
+      <div id="converted-price">加密幣匯率載入中...</div>
 
       <input type="text" id="wallet-address" placeholder="你的錢包地址" required />
       <button type="submit">立即閃兑下單</button>
@@ -102,11 +102,32 @@
     const actionRadios = document.querySelectorAll("input[name='action']");
     const btcWallet = document.getElementById("btc-wallet-info");
     const bankForm = document.getElementById("bank-info-form");
+    const amountInput = document.getElementById("twd-amount");
+    const convertedDisplay = document.getElementById("converted-price");
+
+    let currentRate = 0;
+
+    async function fetchAndDisplayRate() {
+      const coin = cryptoSelect.value;
+      try {
+        const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coin}&vs_currencies=twd`);
+        const data = await res.json();
+        const rate = data[coin]?.twd;
+        currentRate = rate;
+        if (rate) {
+          convertedDisplay.innerText = `目前國際價格：1 ${coin.toUpperCase()} ≈ ${rate.toLocaleString()} TWD`;
+        } else {
+          convertedDisplay.innerText = "⚠️ 無法取得匯率";
+        }
+      } catch (err) {
+        convertedDisplay.innerText = "⚠️ 匯率載入失敗";
+        console.error(err);
+      }
+    }
 
     function updateVisibility() {
       const selectedAction = [...actionRadios].find(r => r.checked).value;
       const selectedCoin = cryptoSelect.value;
-
       const isSellingBTC = selectedAction === "sell" && selectedCoin === "bitcoin";
       const isSelling = selectedAction === "sell";
 
@@ -114,14 +135,29 @@
       bankForm.style.display = isSelling ? "block" : "none";
     }
 
-    cryptoSelect.addEventListener("change", updateVisibility);
-    actionRadios.forEach(r => r.addEventListener("change", updateVisibility));
-    window.addEventListener("DOMContentLoaded", updateVisibility);
+    amountInput.addEventListener("input", function () {
+      const amount = this.value;
+      if (!amount || !currentRate) return;
+      const coin = cryptoSelect.value;
+      const converted = (amount / currentRate).toFixed(6);
+      convertedDisplay.innerText = `預估可兌換：${converted} ${coin.toUpperCase()}（匯率 1 ${coin.toUpperCase()} ≈ ${currentRate.toLocaleString()} TWD）`;
+    });
+
+    cryptoSelect.addEventListener("change", () => {
+      fetchAndDisplayRate();
+      updateVisibility();
+      amountInput.dispatchEvent(new Event("input"));
+    });
+
+    actionRadios.forEach(r => r.addEventListener("change", () => {
+      updateVisibility();
+      amountInput.dispatchEvent(new Event("input"));
+    }));
+
+    window.addEventListener("DOMContentLoaded", () => {
+      updateVisibility();
+      fetchAndDisplayRate();
+    });
   </script>
-
-</body>
-</html>
-
-
 </body>
 </html>
