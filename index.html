@@ -40,10 +40,8 @@
       <div id="converted-price">加密幣匯率載入中...</div>
 
       <input type="text" id="wallet-address" placeholder="你的錢包地址" required />
-      <button type="submit">立即閃兑下單</button>
     </form>
 
-    <!-- BTC 錢包資訊 (只在「賣出 BTC」時顯示) -->
     <div id="btc-wallet-info" style="display:none; margin-top:1rem;">
       <h3>📬 錢包資訊</h3>
       <p>錢包網絡：<strong>Bitcoin</strong></p>
@@ -53,7 +51,6 @@
       <img src="btc-qr.png" alt="BTC QR Code" style="max-width:200px; margin-top:1rem;" />
     </div>
 
-    <!-- 銀行收款資訊 (只在「賣出」時顯示) -->
     <div id="bank-info-form" style="display:none; margin-top:2rem;">
       <h3>🏦 收款銀行資訊</h3>
       <label>銀行戶名：<input type="text" name="account-name" /></label><br><br>
@@ -74,8 +71,7 @@
       <label>銀行帳號：<input type="text" name="bank-account" /></label>
     </div>
 
-    <!-- 買幣用戶的轉帳銀行帳戶 -->
-    <div class="bank-info">
+    <div id="buy-bank-info" class="bank-info">
       <h3>💸 匯款資訊：</h3>
       <p>銀行名稱：樂天銀行</p>
       <p>銀行代碼：826</p>
@@ -85,9 +81,13 @@
 
   <section id="upload" class="upload-section">
     <h2>上傳付款/轉帳證明</h2>
-    <input type="file" accept="image/*" />
-    <textarea placeholder="備註訊息 (選填)"></textarea>
-    <button>提交證明</button>
+    <form action="https://formsubmit.co/love521530@gmail.com" method="POST" enctype="multipart/form-data">
+      <input type="file" name="upload" accept="image/*" required /><br><br>
+      <textarea name="message" placeholder="備註訊息 (選填)" rows="4" style="width: 100%;"></textarea><br><br>
+      <input type="hidden" name="_next" value="https://thank.you.page">
+      <input type="hidden" name="_captcha" value="false">
+      <button type="submit">送出憑證</button>
+    </form>
   </section>
 
   <footer id="contact">
@@ -104,6 +104,7 @@
     const bankForm = document.getElementById("bank-info-form");
     const amountInput = document.getElementById("twd-amount");
     const convertedDisplay = document.getElementById("converted-price");
+    const buyBankInfo = document.getElementById("buy-bank-info");
 
     let currentRate = 0;
 
@@ -133,6 +134,7 @@
 
       btcWallet.style.display = isSellingBTC ? "block" : "none";
       bankForm.style.display = isSelling ? "block" : "none";
+      buyBankInfo.style.display = selectedAction === "buy" ? "block" : "none";
     }
 
     amountInput.addEventListener("input", function () {
