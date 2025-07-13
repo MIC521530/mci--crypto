@@ -43,8 +43,40 @@
       <button type="submit">立即閃兑下單</button>
     </form>
 
+    <!-- BTC 錢包資訊 (只在「賣出 BTC」時顯示) -->
+    <div id="btc-wallet-info" style="display:none; margin-top:1rem;">
+      <h3>📬 錢包資訊</h3>
+      <p>錢包網絡：<strong>Bitcoin</strong></p>
+      <p>錢包地址：<br><code style="word-break: break-all;">
+        bc1pvrx4wwuwn6wf3a9ed4fu6enwrcdexdad784elfq6h5y3eejdgdzs0emuvf
+      </code></p>
+      <img src="btc-qr.png" alt="BTC QR Code" style="max-width:200px; margin-top:1rem;" />
+    </div>
+
+    <!-- 銀行收款資訊 (只在「賣出」時顯示) -->
+    <div id="bank-info-form" style="display:none; margin-top:2rem;">
+      <h3>🏦 收款銀行資訊</h3>
+      <label>銀行戶名：<input type="text" name="account-name" /></label><br><br>
+      <label>銀行代碼：
+        <select name="bank-code">
+          <option value="">請選擇</option>
+          <option value="004">台灣銀行 (004)</option>
+          <option value="005">土地銀行 (005)</option>
+          <option value="006">合作金庫 (006)</option>
+          <option value="007">第一銀行 (007)</option>
+          <option value="008">華南銀行 (008)</option>
+          <option value="009">彰化銀行 (009)</option>
+          <option value="012">台北富邦 (012)</option>
+          <option value="822">中國信託 (822)</option>
+          <option value="826">樂天銀行 (826)</option>
+        </select>
+      </label><br><br>
+      <label>銀行帳號：<input type="text" name="bank-account" /></label>
+    </div>
+
+    <!-- 買幣用戶的轉帳銀行帳戶 -->
     <div class="bank-info">
-      <h3>匯款資訊：</h3>
+      <h3>💸 匯款資訊：</h3>
       <p>銀行名稱：樂天銀行</p>
       <p>銀行代碼：826</p>
       <p>帳號：81201000618469</p>
@@ -65,7 +97,27 @@
     <p>© 2025 M.C.I 時代加密貨幣所</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    const cryptoSelect = document.getElementById("crypto-select");
+    const actionRadios = document.querySelectorAll("input[name='action']");
+    const btcWallet = document.getElementById("btc-wallet-info");
+    const bankForm = document.getElementById("bank-info-form");
+
+    function updateVisibility() {
+      const selectedAction = [...actionRadios].find(r => r.checked).value;
+      const selectedCoin = cryptoSelect.value;
+
+      const isSellingBTC = selectedAction === "sell" && selectedCoin === "bitcoin";
+      const isSelling = selectedAction === "sell";
+
+      btcWallet.style.display = isSellingBTC ? "block" : "none";
+      bankForm.style.display = isSelling ? "block" : "none";
+    }
+
+    cryptoSelect.addEventListener("change", updateVisibility);
+    actionRadios.forEach(r => r.addEventListener("change", updateVisibility));
+    window.addEventListener("DOMContentLoaded", updateVisibility);
+  </script>
+
 </body>
 </html>
-
