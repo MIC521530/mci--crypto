@@ -1,8 +1,169 @@
+/* style.css */
 
-body { font-family: sans-serif; margin: 0; background: #f9f9f9; color: #333; }
-.navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #111; color: white; }
-.logo { height: 40px; }
-nav a { margin-left: 1rem; color: white; text-decoration: none; }
-.banner { padding: 4rem 2rem; text-align: center; background: #222; color: white; }
-.order-section, .upload-section { padding: 2rem; background: white; margin: 2rem; border-radius: 8px; }
-footer { padding: 2rem; background: #111; color: white; text-align: center; }
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
+
+:root {
+  --main-bg: #f8f9fb;
+  --main-text: #111;
+  --accent: #4cafef;
+  --btn-bg: #4cafef;
+  --btn-hover: #3ca0e6;
+  --form-bg: #ffffff;
+  --border: #ddd;
+  --qr-border: #eee;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --main-bg: #0e0f11;
+    --main-text: #f5f5f5;
+    --accent: #4cafef;
+    --btn-bg: #4cafef;
+    --btn-hover: #62c0ff;
+    --form-bg: #1a1c20;
+    --border: #333;
+    --qr-border: #444;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Orbitron', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body {
+  margin: 0;
+  background: var(--main-bg);
+  color: var(--main-text);
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #000;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+.logo {
+  height: 50px;
+}
+
+nav a {
+  color: #fff;
+  margin-left: 1.5rem;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.banner {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(to bottom right, #0f0f12, #1e2025);
+  color: #fff;
+  background-image: url('crypto-bg.jpg');
+  background-size: cover;
+  background-blend-mode: overlay;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.order-section, .upload-section {
+  padding: 2rem;
+  max-width: 600px;
+  margin: auto;
+  background: var(--form-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  margin-top: 2rem;
+}
+
+#trade-form label {
+  margin-right: 1rem;
+}
+
+select, input, textarea {
+  width: 100%;
+  padding: 0.7rem;
+  margin: 0.5rem 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--main-bg);
+  color: var(--main-text);
+}
+
+button {
+  background-color: var(--btn-bg);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: var(--btn-hover);
+}
+
+#converted-price {
+  margin-top: 1rem;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.bank-info, #btc-wallet-info, #bank-info-form {
+  background: var(--main-bg);
+  padding: 1rem;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+footer {
+  margin-top: 3rem;
+  padding: 2rem;
+  text-align: center;
+  background: #000;
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+/* 📱 手機 RWD 響應式設計 */
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .logo {
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .order-section, .upload-section {
+    padding: 1rem;
+  }
+
+  nav a {
+    margin: 0.5rem 0;
+    display: block;
+  }
+}
