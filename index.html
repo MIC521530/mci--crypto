@@ -5,45 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>時代加密貨幣所（M.C.I）</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: url('https://images.unsplash.com/photo-1620832806092-6ab7dc391a99?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
-      background-size: cover;
-      color: white;
-    }
-    .navbar, .banner, .order-section, .upload-section, footer {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 20px;
-      border-radius: 10px;
-      margin: 20px;
-    }
-    input, select, textarea, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 5px;
-      border: none;
-      font-size: 16px;
-    }
-    button {
-      background-color: #00d1b2;
-      color: white;
-      cursor: pointer;
-    }
-    h1, h2, h3, p, label {
-      color: white;
-    }
-    .logo {
-      max-height: 50px;
-    }
-    nav a {
-      color: #fff;
-      margin: 0 10px;
-      text-decoration: none;
-    }
-  </style>
 </head>
 <body>
   <header class="navbar">
@@ -81,15 +42,10 @@
       <input type="text" id="wallet-address" placeholder="你的錢包地址" required />
     </form>
 
-    <div id="btc-wallet-info" style="display:none; margin-top:1rem;">
-      <h3>📬 錢包資訊</h3>
-      <p>錢包網絡：<strong>Bitcoin</strong></p>
-      <p>錢包地址：<br><code style="word-break: break-all;">
-        bc1pvrx4wwuwn6wf3a9ed4fu6enwrcdexdad784elfq6h5y3eejdgdzs0emuvf
-      </code></p>
-      <img src="btc-qr.png" alt="BTC QR Code" style="max-width:200px; margin-top:1rem;" />
-    </div>
+    <!-- 錢包資訊區塊 -->
+    <div id="wallet-info" style="display:none; margin-top:1rem;"></div>
 
+    <!-- 銀行收款資訊 (只在「賣出」時顯示) -->
     <div id="bank-info-form" style="display:none; margin-top:2rem;">
       <h3>🏦 收款銀行資訊</h3>
       <label>銀行戶名：<input type="text" name="account-name" /></label><br><br>
@@ -108,13 +64,6 @@
         </select>
       </label><br><br>
       <label>銀行帳號：<input type="text" name="bank-account" /></label>
-    </div>
-
-    <div id="buy-bank-info" class="bank-info">
-      <h3>💸 匯款資訊：</h3>
-      <p>銀行名稱：樂天銀行</p>
-      <p>銀行代碼：826</p>
-      <p>帳號：81201000618469</p>
     </div>
   </section>
 
@@ -139,11 +88,43 @@
   <script>
     const cryptoSelect = document.getElementById("crypto-select");
     const actionRadios = document.querySelectorAll("input[name='action']");
-    const btcWallet = document.getElementById("btc-wallet-info");
     const bankForm = document.getElementById("bank-info-form");
     const amountInput = document.getElementById("twd-amount");
     const convertedDisplay = document.getElementById("converted-price");
-    const buyBankInfo = document.getElementById("buy-bank-info");
+    const walletInfoDiv = document.getElementById("wallet-info");
+
+    const walletData = {
+      bitcoin: {
+        network: "Bitcoin",
+        address: "bc1pvrx4wwuwn6wf3a9ed4fu6enwrcdexdad784elfq6h5y3eejdgdzs0emuvf",
+        qr: "btc-qr.png"
+      },
+      ethereum: {
+        network: "Ethereum",
+        address: "0x705d2f673516067376daad1fbb2677abd7fd7bc1",
+        qr: "ETH-qr.png"
+      },
+      tether: {
+        network: "Tron",
+        address: "TXyDywmpLUrjn4hr5LFMC3rKPmGd7a6zFp",
+        qr: "USDT-qr.png"
+      },
+      binancecoin: {
+        network: "BNB Chain",
+        address: "0x705d2f673516067376daad1fbb2677abd7fd7bc1",
+        qr: "BNB-qr.png"
+      },
+      ripple: {
+        network: "BNB Chain",
+        address: "0x705d2f673516067376daad1fbb2677abd7fd7bc1",
+        qr: "XRP-qr.png"
+      },
+      dogecoin: {
+        network: "Dogecoin",
+        address: "DNwNYeeWSfVAKWR9gFcLvh27mcmZF8zr5n",
+        qr: "DOGE-qr.png"
+      }
+    };
 
     let currentRate = 0;
 
@@ -161,19 +142,31 @@
         }
       } catch (err) {
         convertedDisplay.innerText = "⚠️ 匯率載入失敗";
-        console.error(err);
       }
     }
 
     function updateVisibility() {
       const selectedAction = [...actionRadios].find(r => r.checked).value;
       const selectedCoin = cryptoSelect.value;
-      const isSellingBTC = selectedAction === "sell" && selectedCoin === "bitcoin";
       const isSelling = selectedAction === "sell";
 
-      btcWallet.style.display = isSellingBTC ? "block" : "none";
+      // 銀行資訊區塊
       bankForm.style.display = isSelling ? "block" : "none";
-      buyBankInfo.style.display = selectedAction === "buy" ? "block" : "none";
+
+      // 顯示對應錢包資訊
+      if (isSelling && walletData[selectedCoin]) {
+        const { network, address, qr } = walletData[selectedCoin];
+        walletInfoDiv.innerHTML = `
+          <h3>📬 錢包資訊</h3>
+          <p>錢包網絡：<strong>${network}</strong></p>
+          <p>錢包地址：<br><code style="word-break: break-all;">${address}</code></p>
+          <img src="${qr}" alt="${network} QR Code" style="max-width:200px; margin-top:1rem;" />
+        `;
+        walletInfoDiv.style.display = "block";
+      } else {
+        walletInfoDiv.style.display = "none";
+        walletInfoDiv.innerHTML = "";
+      }
     }
 
     amountInput.addEventListener("input", function () {
@@ -202,4 +195,5 @@
   </script>
 </body>
 </html>
+
 
