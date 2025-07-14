@@ -1,169 +1,109 @@
-/* style.css */
-
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
-
-:root {
-  --main-bg: #f8f9fb;
-  --main-text: #111;
-  --accent: #4cafef;
-  --btn-bg: #4cafef;
-  --btn-hover: #3ca0e6;
-  --form-bg: #ffffff;
-  --border: #ddd;
-  --qr-border: #eee;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --main-bg: #0e0f11;
-    --main-text: #f5f5f5;
-    --accent: #4cafef;
-    --btn-bg: #4cafef;
-    --btn-hover: #62c0ff;
-    --form-bg: #1a1c20;
-    --border: #333;
-    --qr-border: #444;
-  }
-}
-
-* {
-  box-sizing: border-box;
-  font-family: 'Orbitron', sans-serif;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-body {
-  margin: 0;
-  background: var(--main-bg);
-  color: var(--main-text);
-  line-height: 1.6;
-  font-size: 16px;
-}
-
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background: #000;
-  color: #fff;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
-}
-
-.logo {
-  height: 50px;
-}
-
-nav a {
-  color: #fff;
-  margin-left: 1.5rem;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.banner {
-  text-align: center;
-  padding: 4rem 2rem;
-  background: linear-gradient(to bottom right, #0f0f12, #1e2025);
-  color: #fff;
-  background-image: url('crypto-bg.jpg');
-  background-size: cover;
-  background-blend-mode: overlay;
-}
-
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.order-section, .upload-section {
-  padding: 2rem;
-  max-width: 600px;
-  margin: auto;
-  background: var(--form-bg);
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  margin-top: 2rem;
-}
-
-#trade-form label {
-  margin-right: 1rem;
-}
-
-select, input, textarea {
-  width: 100%;
-  padding: 0.7rem;
-  margin: 0.5rem 0;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--main-bg);
-  color: var(--main-text);
-}
-
-button {
-  background-color: var(--btn-bg);
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: var(--btn-hover);
-}
-
-#converted-price {
-  margin-top: 1rem;
-  font-weight: bold;
-  color: var(--accent);
-}
-
-.bank-info, #btc-wallet-info, #bank-info-form {
-  background: var(--main-bg);
-  padding: 1rem;
-  border: 1px dashed var(--border);
-  border-radius: 8px;
-  margin-top: 1rem;
-}
-
-footer {
-  margin-top: 3rem;
-  padding: 2rem;
-  text-align: center;
-  background: #000;
-  color: #aaa;
-  font-size: 0.9rem;
-}
-
-img {
-  max-width: 100%;
-  border-radius: 8px;
-}
-
-/* 📱 手機 RWD 響應式設計 */
-@media (max-width: 600px) {
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .logo {
-    margin-bottom: 1rem;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
-
-  .order-section, .upload-section {
-    padding: 1rem;
-  }
-
-  nav a {
-    margin: 0.5rem 0;
-    display: block;
-  }
-}
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>時代加密貨幣所（M.C.I）</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --primary: #0ff1ce;
+      --bg-light: #f5f5f5;
+      --bg-dark: #0d1117;
+      --text-light: #ffffff;
+      --text-dark: #1f1f1f;
+      --gradient: linear-gradient(135deg, #0ff1ce, #7f00ff);
+    }
+    body {
+      font-family: 'Orbitron', sans-serif;
+      margin: 0;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark-mode {
+      background: var(--bg-dark);
+      color: var(--text-light);
+    }
+    .navbar {
+      background: var(--gradient);
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar nav a, #theme-toggle {
+      margin-left: 1rem;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+    }
+    .banner {
+      text-align: center;
+      padding: 2rem;
+      background: radial-gradient(circle at top, #0ff1ce33, transparent);
+    }
+    .order-section, .upload-section {
+      padding: 2rem;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .form-grid input, .form-grid select, textarea {
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      width: 100%;
+    }
+    button {
+      background: var(--primary);
+      color: black;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    #converted-price {
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: #111;
+      color: #ccc;
+      font-size: 0.9rem;
+    }
+    @media (max-width: 600px) {
+      .navbar nav, .form-grid {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .navbar {
+        flex-wrap: wrap;
+      }
+    }
+    .dark-mode .form-grid input,
+    .dark-mode .form-grid select,
+    .dark-mode textarea {
+      background: #1e1e1e;
+      color: #fff;
+      border: 1px solid #333;
+    }
+  </style>
+</head>
+<body>
+  <!-- 略，index.html 內容不變 -->
+</body>
+</html>
