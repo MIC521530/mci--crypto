@@ -6,6 +6,8 @@
   <title>時代加密貨幣所（M.C.I）</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
   <style>
     :root {
       --primary: #0ff1ce;
@@ -21,10 +23,19 @@
       background: var(--bg-light);
       color: var(--text-dark);
       transition: background 0.3s, color 0.3s;
+      position: relative;
     }
     body.dark-mode {
       background: var(--bg-dark);
       color: var(--text-light);
+    }
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
     }
     .navbar {
       background: var(--gradient);
@@ -39,11 +50,23 @@
       text-decoration: none;
       color: white;
       font-weight: bold;
+      cursor: pointer;
+    }
+    #theme-toggle {
+      background: none;
+      border: 2px solid white;
+      border-radius: 6px;
+      padding: 0.4rem 0.8rem;
     }
     .banner {
       text-align: center;
-      padding: 2rem;
+      padding: 3rem 2rem;
       background: radial-gradient(circle at top, #0ff1ce33, transparent);
+      animation: fadeIn 2s ease-in;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
     }
     .order-section, .upload-section {
       padding: 2rem;
@@ -60,6 +83,7 @@
       border: 1px solid #ccc;
       font-size: 1rem;
       width: 100%;
+      transition: all 0.2s ease;
     }
     button {
       background: var(--primary);
@@ -69,10 +93,30 @@
       border-radius: 8px;
       font-weight: bold;
       cursor: pointer;
-      transition: transform 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
     }
     button:hover {
       transform: scale(1.05);
+      box-shadow: 0 0 10px #0ff1ce99;
+    }
+    button::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.4s ease, height 0.4s ease;
+      z-index: 0;
+    }
+    button:active::after {
+      width: 200px;
+      height: 200px;
     }
     #converted-price {
       font-weight: bold;
@@ -104,6 +148,46 @@
   </style>
 </head>
 <body>
-  <!-- 略，index.html 內容不變 -->
+  <div id="particles-js"></div>
+  <header class="navbar">
+    <img src="logo.png" alt="MCI Logo" class="logo" />
+    <nav>
+      <a href="#order">立即下單</a>
+      <a href="#upload">上傳憑證</a>
+      <a href="#contact">聯絡客服</a>
+      <button id="theme-toggle" onclick="toggleTheme()">切換主題</button>
+    </nav>
+  </header>
+
+  <!-- 其他內容依照 index.html 實作即可插入此處 -->
+
+  <script>
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && prefersDark)) {
+      document.body.classList.add('dark-mode');
+    }
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+      localStorage.setItem('theme', mode);
+    }
+
+    // 粒子背景動畫
+    window.addEventListener('DOMContentLoaded', () => {
+      particlesJS('particles-js', {
+        particles: {
+          number: { value: 80 },
+          size: { value: 3 },
+          color: { value: '#0ff1ce' },
+          line_linked: { enable: true, distance: 150, color: '#0ff1ce' },
+          move: { enable: true, speed: 2 }
+        },
+        interactivity: {
+          events: { onhover: { enable: true, mode: 'repulse' } },
+          modes: { repulse: { distance: 100 } }
+        }
+      });
+    });
+  </script>
 </body>
 </html>
