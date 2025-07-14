@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>時代加密貨幣所（M.C.I）</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header class="navbar">
-    <img src="logo.png" alt="MCI Logo" class="logo" />
+    <img src="logo.png" alt="MCI Logo" class="logo">
     <nav>
       <a href="#order">立即下單</a>
       <a href="#upload">上傳憑證</a>
       <a href="#contact">聯絡客服</a>
+      <button id="theme-toggle">🌗 模式切換</button>
     </nav>
   </header>
 
@@ -24,31 +26,33 @@
   <section id="order" class="order-section">
     <h2>買 / 賣加密貨幣</h2>
     <form id="trade-form">
-      <label><input type="radio" name="action" value="buy" checked> 我要買</label>
-      <label><input type="radio" name="action" value="sell"> 我要賣</label>
+      <div class="flex-row">
+        <label><input type="radio" name="action" value="buy" checked> 我要買</label>
+        <label><input type="radio" name="action" value="sell"> 我要賣</label>
+      </div>
 
-      <select id="crypto-select">
-        <option value="bitcoin">比特幣 (BTC)</option>
-        <option value="ethereum">以太幣 (ETH)</option>
-        <option value="tether">泰達幣 (USDT)</option>
-        <option value="binancecoin">幣安幣 (BNB)</option>
-        <option value="ripple">瑞波幣 (XRP)</option>
-        <option value="dogecoin">狗狗幣 (DOGE)</option>
-      </select>
+      <div class="form-grid">
+        <select id="crypto-select">
+          <option value="bitcoin">比特幣 (BTC)</option>
+          <option value="ethereum">以太幣 (ETH)</option>
+          <option value="tether">泰達幣 (USDT)</option>
+          <option value="binancecoin">幣安幣 (BNB)</option>
+          <option value="ripple">瑞波幣 (XRP)</option>
+          <option value="dogecoin">狗狗幣 (DOGE)</option>
+        </select>
 
-      <input type="number" id="twd-amount" placeholder="輸入新台幣金額" required />
+        <input type="number" id="twd-amount" placeholder="輸入新台幣金額" required>
+        <input type="text" id="wallet-address" placeholder="你的錢包地址" required>
+      </div>
+
       <div id="converted-price">加密幣匯率載入中...</div>
-
-      <input type="text" id="wallet-address" placeholder="你的錢包地址" required />
     </form>
 
-    <!-- 錢包資訊區塊 -->
     <div id="wallet-info" style="display:none; margin-top:1rem;"></div>
 
-    <!-- 銀行收款資訊 (只在「賣出」時顯示) -->
     <div id="bank-info-form" style="display:none; margin-top:2rem;">
       <h3>🏦 收款銀行資訊</h3>
-      <label>銀行戶名：<input type="text" name="account-name" /></label><br><br>
+      <label>銀行戶名：<input type="text" name="account-name"></label><br><br>
       <label>銀行代碼：
         <select name="bank-code">
           <option value="">請選擇</option>
@@ -63,14 +67,21 @@
           <option value="826">樂天銀行 (826)</option>
         </select>
       </label><br><br>
-      <label>銀行帳號：<input type="text" name="bank-account" /></label>
+      <label>銀行帳號：<input type="text" name="bank-account"></label>
+    </div>
+
+    <div id="buy-bank-info">
+      <h3>💸 匯款資訊：</h3>
+      <p>銀行名稱：樂天銀行</p>
+      <p>銀行代碼：826</p>
+      <p>帳號：81201000618469</p>
     </div>
   </section>
 
   <section id="upload" class="upload-section">
     <h2>上傳付款/轉帳證明</h2>
     <form action="https://formsubmit.co/love521530@gmail.com" method="POST" enctype="multipart/form-data">
-      <input type="file" name="upload" accept="image/*" required /><br><br>
+      <input type="file" name="upload" accept="image/*" required><br><br>
       <textarea name="message" placeholder="備註訊息 (選填)" rows="4" style="width: 100%;"></textarea><br><br>
       <input type="hidden" name="_next" value="https://thank.you.page">
       <input type="hidden" name="_captcha" value="false">
@@ -85,115 +96,11 @@
     <p>© 2025 M.C.I 時代加密貨幣所</p>
   </footer>
 
+  <script src="script.js"></script>
   <script>
-    const cryptoSelect = document.getElementById("crypto-select");
-    const actionRadios = document.querySelectorAll("input[name='action']");
-    const bankForm = document.getElementById("bank-info-form");
-    const amountInput = document.getElementById("twd-amount");
-    const convertedDisplay = document.getElementById("converted-price");
-    const walletInfoDiv = document.getElementById("wallet-info");
-
-    const walletData = {
-      bitcoin: {
-        network: "Bitcoin",
-        address: "bc1pvrx4wwuwn6wf3a9ed4fu6enwrcdexdad784elfq6h5y3eejdgdzs0emuvf",
-        qr: "btc-qr.png"
-      },
-      ethereum: {
-        network: "Ethereum",
-        address: "0x705d2f673516067376daad1fbb2677abd7fd7bc1",
-        qr: "ETH-qr.png"
-      },
-      tether: {
-        network: "Tron",
-        address: "TXyDywmpLUrjn4hr5LFMC3rKPmGd7a6zFp",
-        qr: "USDT-qr.png"
-      },
-      binancecoin: {
-        network: "BNB Chain",
-        address: "0x705d2f673516067376daad1fbb2677abd7fd7bc1",
-        qr: "BNB-qr.png"
-      },
-      ripple: {
-        network: "BNB Chain",
-        address: "0x705d2f673516067376daad1fbb2677abd7fd7bc1",
-        qr: "XRP-qr.png"
-      },
-      dogecoin: {
-        network: "Dogecoin",
-        address: "DNwNYeeWSfVAKWR9gFcLvh27mcmZF8zr5n",
-        qr: "DOGE-qr.png"
-      }
-    };
-
-    let currentRate = 0;
-
-    async function fetchAndDisplayRate() {
-      const coin = cryptoSelect.value;
-      try {
-        const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coin}&vs_currencies=twd`);
-        const data = await res.json();
-        const rate = data[coin]?.twd;
-        currentRate = rate;
-        if (rate) {
-          convertedDisplay.innerText = `目前國際價格：1 ${coin.toUpperCase()} ≈ ${rate.toLocaleString()} TWD`;
-        } else {
-          convertedDisplay.innerText = "⚠️ 無法取得匯率";
-        }
-      } catch (err) {
-        convertedDisplay.innerText = "⚠️ 匯率載入失敗";
-      }
-    }
-
-    function updateVisibility() {
-      const selectedAction = [...actionRadios].find(r => r.checked).value;
-      const selectedCoin = cryptoSelect.value;
-      const isSelling = selectedAction === "sell";
-
-      // 銀行資訊區塊
-      bankForm.style.display = isSelling ? "block" : "none";
-
-      // 顯示對應錢包資訊
-      if (isSelling && walletData[selectedCoin]) {
-        const { network, address, qr } = walletData[selectedCoin];
-        walletInfoDiv.innerHTML = `
-          <h3>📬 錢包資訊</h3>
-          <p>錢包網絡：<strong>${network}</strong></p>
-          <p>錢包地址：<br><code style="word-break: break-all;">${address}</code></p>
-          <img src="${qr}" alt="${network} QR Code" style="max-width:200px; margin-top:1rem;" />
-        `;
-        walletInfoDiv.style.display = "block";
-      } else {
-        walletInfoDiv.style.display = "none";
-        walletInfoDiv.innerHTML = "";
-      }
-    }
-
-    amountInput.addEventListener("input", function () {
-      const amount = this.value;
-      if (!amount || !currentRate) return;
-      const coin = cryptoSelect.value;
-      const converted = (amount / currentRate).toFixed(6);
-      convertedDisplay.innerText = `預估可兌換：${converted} ${coin.toUpperCase()}（匯率 1 ${coin.toUpperCase()} ≈ ${currentRate.toLocaleString()} TWD）`;
-    });
-
-    cryptoSelect.addEventListener("change", () => {
-      fetchAndDisplayRate();
-      updateVisibility();
-      amountInput.dispatchEvent(new Event("input"));
-    });
-
-    actionRadios.forEach(r => r.addEventListener("change", () => {
-      updateVisibility();
-      amountInput.dispatchEvent(new Event("input"));
-    }));
-
-    window.addEventListener("DOMContentLoaded", () => {
-      updateVisibility();
-      fetchAndDisplayRate();
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
     });
   </script>
 </body>
 </html>
-
-
