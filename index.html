@@ -394,4 +394,72 @@
       }
       const cryptoAmount = (twdAmount / priceTWD).toFixed(6);
       const cryptoName = isZh ? cryptoNameMap[crypto] : cryptoNameMapEn[crypto];
+  convertedPriceEl.innerText = (isZh ? '約可換取：' : 'You can get: ') + `${cryptoAmount} ${cryptoName}`;
+}
 
+document.getElementById('crypto-select').addEventListener('change', updateConvertedPrice);
+document.getElementById('twd-amount').addEventListener('input', updateConvertedPrice);
+
+// 表單送出處理
+document.getElementById('trade-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  Swal.fire({
+    icon: 'success',
+    title: isZh ? '訂單已送出！' : 'Order Submitted!',
+    text: isZh ? '我們會儘速與您聯絡確認。' : 'We will contact you shortly.',
+    showConfirmButton: false,
+    timer: 2000
+  });
+  e.target.reset();
+  updateConvertedPrice();
+});
+
+// 動態顯示銀行資訊
+function updateBankInfo() {
+  const action = document.querySelector('input[name="action"]:checked').value;
+  const html = isZh
+    ? (action === 'buy' ? zh.bankInfoBuy : zh.bankInfoSell)
+    : (action === 'buy' ? en.bankInfoBuy : en.bankInfoSell);
+  document.getElementById('bank-info-container').innerHTML = html;
+}
+
+document.querySelectorAll('input[name="action"]').forEach(el =>
+  el.addEventListener('change', updateBankInfo)
+);
+
+// 初始化
+updateBankInfo();
+updateConvertedPrice();
+
+// 粒子動畫與 TradingView 嵌入
+window.addEventListener('DOMContentLoaded', () => {
+  particlesJS('particles-js', {
+    particles: {
+      number: { value: 80 },
+      size: { value: 3 },
+      color: { value: '#0ff1ce' },
+      line_linked: { enable: true, distance: 150, color: '#0ff1ce' },
+      move: { enable: true, speed: 2 }
+    },
+    interactivity: {
+      events: { onhover: { enable: true, mode: 'repulse' } },
+      modes: { repulse: { distance: 100 } }
+    }
+  });
+
+  new TradingView.widget({
+    width: "100%",
+    height: 400,
+    symbol: "BINANCE:BTCUSDT",
+    interval: "30",
+    timezone: "Asia/Taipei",
+    theme: "dark",
+    style: "1",
+    locale: "zh_TW",
+    toolbar_bg: "#f1f3f6",
+    enable_publishing: false,
+    allow_symbol_change: true,
+    container_id: "tradingview_12345"
+  });
+});
+</script> </body> </html> ```
