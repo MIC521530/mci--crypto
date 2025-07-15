@@ -1,90 +1,237 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>時代加密貨幣所（M.C.I）</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
+  <style>
+    :root {
+      --primary: #0ff1ce;
+      --bg-light: #f5f5f5;
+      --bg-dark: #0d1117;
+      --text-light: #ffffff;
+      --text-dark: #1f1f1f;
+      --gradient: linear-gradient(135deg, #0ff1ce, #7f00ff);
+    }
+    body {
+      font-family: 'Orbitron', sans-serif;
+      margin: 0;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      transition: background 0.3s, color 0.3s;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    body.dark-mode {
+      background: var(--bg-dark);
+      color: var(--text-light);
+    }
+    #particles-js {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+    }
+    .navbar {
+      background: var(--gradient);
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .navbar nav {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .navbar nav a, #theme-toggle, #lang-toggle {
+      margin-left: 1rem;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      border: 2px solid white;
+      border-radius: 6px;
+      padding: 0.4rem 0.8rem;
+      background: none;
+      user-select: none;
+      transition: background 0.3s, color 0.3s;
+    }
+    .navbar nav a:hover,
+    #theme-toggle:hover,
+    #lang-toggle:hover {
+      background: white;
+      color: var(--primary);
+    }
+    .logo {
+      max-height: 50px;
+    }
+    .banner {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: radial-gradient(circle at top, #0ff1ce33, transparent);
+      animation: fadeIn 2s ease-in;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    section {
+      padding: 2rem;
+      max-width: 960px;
+      margin: 0 auto;
+      width: 90%;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .form-grid input, .form-grid select, textarea {
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      width: 100%;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+    }
+    button {
+      background: var(--primary);
+      color: black;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #0ff1ce99;
+    }
+    button:active::after {
+      width: 200px;
+      height: 200px;
+    }
+    #converted-price {
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: #111;
+      color: #ccc;
+      font-size: 0.9rem;
+      margin-top: auto;
+    }
+    @media (max-width: 600px) {
+      .navbar nav, .form-grid {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+    .dark-mode .form-grid input,
+    .dark-mode .form-grid select,
+    .dark-mode textarea {
+      background: #1e1e1e;
+      color: #fff;
+      border: 1px solid #333;
+    }
+    /* 標籤和輸入框排版 */
+    label {
+      display: flex;
+      flex-direction: column;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
+  <div id="particles-js"></div>
+
   <header class="navbar">
-    <img src="logo.png" alt="MCI Logo" class="logo">
+    <img src="logo.png" alt="MCI Logo" class="logo" />
     <nav>
-      <a href="#order">立即下單</a>
-      <a href="#upload">上傳憑證</a>
-      <a href="#contact">聯絡客服</a>
-      <button id="theme-toggle">🌗 模式切換</button>
+      <a href="#order" id="nav-order">立即下單</a>
+      <a href="#upload" id="nav-upload">上傳憑證</a>
+      <a href="#contact" id="nav-contact">聯絡客服</a>
+      <button id="theme-toggle" aria-label="切換主題">切換主題</button>
+      <button id="lang-toggle" aria-label="切換語言">EN/中</button>
     </nav>
   </header>
 
   <section class="banner">
-    <h1>安全快速閃兑主流加密貨幣</h1>
-    <p>僅接受新台幣匯款、ATM 轉帳與加密貨幣付款</p>
+    <h1 id="hero-text">安全快速閃兑主流加密貨幣</h1>
+    <p id="hero-sub">僅接受新台幣匯款、ATM 轉帳與加密貨幣付款</p>
+  </section>
+
+  <!-- TradingView Chart -->
+  <section style="margin: 2rem auto; max-width:960px;">
+    <div class="tradingview-widget-container">
+      <div id="tradingview_12345"></div>
+    </div>
   </section>
 
   <section id="order" class="order-section">
-    <h2>買 / 賣加密貨幣</h2>
-    <form id="trade-form">
-      <div class="flex-row">
+    <h2 id="order-title">買 / 賣加密貨幣</h2>
+    <form id="trade-form" autocomplete="off">
+      <div style="display:flex; gap:1rem; flex-wrap:wrap;">
         <label><input type="radio" name="action" value="buy" checked> 我要買</label>
         <label><input type="radio" name="action" value="sell"> 我要賣</label>
       </div>
 
       <div class="form-grid">
-        <select id="crypto-select">
-          <option value="bitcoin">比特幣 (BTC)</option>
-          <option value="ethereum">以太幣 (ETH)</option>
-          <option value="tether">泰達幣 (USDT)</option>
-          <option value="binancecoin">幣安幣 (BNB)</option>
-          <option value="ripple">瑞波幣 (XRP)</option>
-          <option value="dogecoin">狗狗幣 (DOGE)</option>
-        </select>
+        <label>
+          幣種
+          <select id="crypto-select" name="crypto">
+            <option value="bitcoin">比特幣 (BTC)</option>
+            <option value="ethereum">以太幣 (ETH)</option>
+            <option value="tether">泰達幣 (USDT)</option>
+            <option value="binancecoin">幣安幣 (BNB)</option>
+            <option value="ripple">瑞波幣 (XRP)</option>
+            <option value="dogecoin">狗狗幣 (DOGE)</option>
+          </select>
+        </label>
 
-        <input type="number" id="twd-amount" placeholder="輸入新台幣金額" required>
-        <input type="text" id="wallet-address" placeholder="你的錢包地址" required>
+        <label>
+          新台幣金額 (TWD)
+          <input type="number" id="twd-amount" name="twd-amount" placeholder="輸入新台幣金額" min="1" required />
+        </label>
+
+        <label>
+          你的錢包地址
+          <input type="text" id="wallet-address" name="wallet-address" placeholder="請輸入錢包地址" required />
+        </label>
       </div>
 
       <div id="converted-price">加密幣匯率載入中...</div>
+
+      <div id="bank-info-container" style="margin-top: 1.5rem;">
+        <!-- 會動態填充匯款或收款銀行資訊 -->
+      </div>
+
+      <button type="submit" style="margin-top:1.5rem;">送出訂單</button>
     </form>
-
-    <div id="wallet-info" style="display:none; margin-top:1rem;"></div>
-
-    <div id="bank-info-form" style="display:none; margin-top:2rem;">
-      <h3>🏦 收款銀行資訊</h3>
-      <label>銀行戶名：<input type="text" name="account-name"></label><br><br>
-      <label>銀行代碼：
-        <select name="bank-code">
-          <option value="">請選擇</option>
-          <option value="004">台灣銀行 (004)</option>
-          <option value="005">土地銀行 (005)</option>
-          <option value="006">合作金庫 (006)</option>
-          <option value="007">第一銀行 (007)</option>
-          <option value="008">華南銀行 (008)</option>
-          <option value="009">彰化銀行 (009)</option>
-          <option value="012">台北富邦 (012)</option>
-          <option value="822">中國信託 (822)</option>
-          <option value="826">樂天銀行 (826)</option>
-        </select>
-      </label><br><br>
-      <label>銀行帳號：<input type="text" name="bank-account"></label>
-    </div>
-
-    <div id="buy-bank-info">
-      <h3>💸 匯款資訊：</h3>
-      <p>銀行名稱：樂天銀行</p>
-      <p>銀行代碼：826</p>
-      <p>帳號：81201000618469</p>
-    </div>
   </section>
 
   <section id="upload" class="upload-section">
-    <h2>上傳付款/轉帳證明</h2>
+    <h2 id="upload-title">上傳付款/轉帳證明</h2>
     <form action="https://formsubmit.co/love521530@gmail.com" method="POST" enctype="multipart/form-data">
-      <input type="file" name="upload" accept="image/*" required><br><br>
-      <textarea name="message" placeholder="備註訊息 (選填)" rows="4" style="width: 100%;"></textarea><br><br>
-      <input type="hidden" name="_next" value="https://thank.you.page">
-      <input type="hidden" name="_captcha" value="false">
+      <input type="file" name="upload" accept="image/*" required /><br /><br />
+      <textarea name="message" placeholder="備註訊息 (選填)" rows="4" style="width: 100%;"></textarea><br /><br />
+      <input type="hidden" name="_next" value="https://thank.you.page" />
+      <input type="hidden" name="_captcha" value="false" />
       <button type="submit">送出憑證</button>
     </form>
   </section>
@@ -96,11 +243,155 @@
     <p>© 2025 M.C.I 時代加密貨幣所</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://s3.tradingview.com/tv.js"></script>
+
   <script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
+    // 主題切換 & 儲存
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const langToggleBtn = document.getElementById('lang-toggle');
+
+    // 預設用戶系統主題
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && prefersDark)) {
+      document.body.classList.add('dark-mode');
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+      localStorage.setItem('theme', mode);
     });
-  </script>
-</body>
-</html>
+
+    // 簡單中英文切換 (英雄區與標題)
+    let isZh = true;
+    langToggleBtn.addEventListener('click', () => {
+      const zh = {
+        hero: "安全快速閃兑主流加密貨幣",
+        sub: "僅接受新台幣匯款、ATM 轉帳與加密貨幣付款",
+        orderTitle: "買 / 賣加密貨幣",
+        uploadTitle: "上傳付款/轉帳證明",
+        buy: "我要買",
+        sell: "我要賣",
+        bankInfoBuy: `<h3>💸 匯款資訊：</h3>
+          <p>銀行名稱：樂天銀行</p>
+          <p>銀行代碼：826</p>
+          <p>帳號：81201000618469</p>`,
+        bankInfoSell: `<h3>🏦 收款銀行資訊</h3>
+          <label>銀行戶名：<input type="text" name="account-name" /></label><br /><br />
+          <label>銀行代碼：
+            <select name="bank-code">
+              <option value="">請選擇</option>
+              <option value="004">台灣銀行 (004)</option>
+              <option value="005">土地銀行 (005)</option>
+              <option value="006">合作金庫 (006)</option>
+              <option value="007">第一銀行 (007)</option>
+              <option value="008">華南銀行 (008)</option>
+              <option value="009">彰化銀行 (009)</option>
+              <option value="012">台北富邦 (012)</option>
+              <option value="822">中國信託 (822)</option>
+              <option value="826">樂天銀行 (826)</option>
+            </select>
+          </label><br /><br />
+          <label>銀行帳號：<input type="text" name="bank-account" /></label>`
+      };
+      const en = {
+        hero: "Secure and Fast Crypto Exchange",
+        sub: "Only TWD bank transfer, ATM, and crypto payments accepted",
+        orderTitle: "Buy / Sell Cryptocurrencies",
+        uploadTitle: "Upload Payment Proof",
+        buy: "Buy",
+        sell: "Sell",
+        bankInfoBuy: `<h3>💸 Remittance Info:</h3>
+          <p>Bank Name: Rakuten Bank</p>
+          <p>Bank Code: 826</p>
+          <p>Account: 81201000618469</p>`,
+        bankInfoSell: `<h3>🏦 Receiving Bank Info</h3>
+          <label>Account Name: <input type="text" name="account-name" /></label><br /><br />
+          <label>Bank Code:
+            <select name="bank-code">
+              <option value="">Select</option>
+              <option value="004">Bank of Taiwan (004)</option>
+              <option value="005">Land Bank (005)</option>
+              <option value="006">Taiwan Cooperative Bank (006)</option>
+              <option value="007">First Bank (007)</option>
+              <option value="008">Hua Nan Bank (008)</option>
+              <option value="009">Chang Hwa Bank (009)</option>
+              <option value="012">Taipei Fubon Bank (012)</option>
+              <option value="822">CTBC Bank (822)</option>
+              <option value="826">Rakuten Bank (826)</option>
+            </select>
+          </label><br /><br />
+          <label>Account Number: <input type="text" name="bank-account" /></label>`
+      };
+
+      isZh = !isZh;
+
+      document.getElementById('hero-text').innerText = isZh ? zh.hero : en.hero;
+      document.getElementById('hero-sub').innerText = isZh ? zh.sub : en.sub;
+      document.getElementById('order-title').innerText = isZh ? zh.orderTitle : en.orderTitle;
+      document.getElementById('upload-title').innerText = isZh ? zh.uploadTitle : en.uploadTitle;
+
+      // 切換買賣文字
+      document.querySelectorAll('input[name="action"]').forEach((el, i) => {
+        el.nextSibling.textContent = isZh ? (el.value === 'buy' ? zh.buy : zh.sell) : (el.value === 'buy' ? en.buy : en.sell);
+      });
+
+      updateBankInfo();
+    });
+
+    // 幣種中文對應
+    const cryptoNameMap = {
+      bitcoin: '比特幣 (BTC)',
+      ethereum: '以太幣 (ETH)',
+      tether: '泰達幣 (USDT)',
+      binancecoin: '幣安幣 (BNB)',
+      ripple: '瑞波幣 (XRP)',
+      dogecoin: '狗狗幣 (DOGE)'
+    };
+    const cryptoNameMapEn = {
+      bitcoin: 'Bitcoin (BTC)',
+      ethereum: 'Ethereum (ETH)',
+      tether: 'Tether (USDT)',
+      binancecoin: 'Binance Coin (BNB)',
+      ripple: 'Ripple (XRP)',
+      dogecoin: 'Dogecoin (DOGE)'
+    };
+
+    // 顯示匯率與換算
+    async function fetchPrices() {
+      try {
+        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether,binancecoin,ripple,dogecoin&vs_currencies=twd');
+        if (!res.ok) throw new Error('API Error');
+        const data = await res.json();
+        return data;
+      } catch (err) {
+        console.error('取得幣價失敗:', err);
+        return null;
+      }
+    }
+
+    async function updateConvertedPrice() {
+      const prices = await fetchPrices();
+      const crypto = document.getElementById('crypto-select').value;
+      const twdAmount = Number(document.getElementById('twd-amount').value);
+      const convertedPriceEl = document.getElementById('converted-price');
+
+      if (!prices) {
+        convertedPriceEl.innerText = isZh ? '無法取得匯率資料' : 'Unable to fetch price data';
+        return;
+      }
+      if (!twdAmount || twdAmount <= 0) {
+        convertedPriceEl.innerText = isZh ? '請輸入有效的新台幣金額' : 'Please enter a valid TWD amount';
+        return;
+      }
+
+      const priceTWD = prices[crypto]?.twd || 0;
+      if (priceTWD === 0) {
+        convertedPriceEl.innerText = isZh ? '無法取得匯率' : 'Price not available';
+        return;
+      }
+      const cryptoAmount = (twdAmount / priceTWD).toFixed(6);
+      const cryptoName = isZh ? cryptoNameMap[crypto] : cryptoNameMapEn[crypto];
+
