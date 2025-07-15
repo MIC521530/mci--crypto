@@ -1,193 +1,178 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>時代加密貨幣所（M.C.I）</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
-  <style>
-    :root {
-      --primary: #0ff1ce;
-      --bg-light: #f5f5f5;
-      --bg-dark: #0d1117;
-      --text-light: #ffffff;
-      --text-dark: #1f1f1f;
-      --gradient: linear-gradient(135deg, #0ff1ce, #7f00ff);
-    }
-    body {
-      font-family: 'Orbitron', sans-serif;
-      margin: 0;
-      background: var(--bg-light);
-      color: var(--text-dark);
-      transition: background 0.3s, color 0.3s;
-      position: relative;
-    }
-    body.dark-mode {
-      background: var(--bg-dark);
-      color: var(--text-light);
-    }
-    #particles-js {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-    .navbar {
-      background: var(--gradient);
-      color: white;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .navbar nav a, #theme-toggle {
-      margin-left: 1rem;
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    #theme-toggle {
-      background: none;
-      border: 2px solid white;
-      border-radius: 6px;
-      padding: 0.4rem 0.8rem;
-    }
-    .banner {
-      text-align: center;
-      padding: 3rem 2rem;
-      background: radial-gradient(circle at top, #0ff1ce33, transparent);
-      animation: fadeIn 2s ease-in;
-    }
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(-20px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-    .order-section, .upload-section {
-      padding: 2rem;
-    }
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      margin: 1rem 0;
-    }
-    .form-grid input, .form-grid select, textarea {
-      padding: 0.75rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-      width: 100%;
-      transition: all 0.2s ease;
-    }
-    button {
-      background: var(--primary);
-      color: black;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 10px #0ff1ce99;
-    }
-    button::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 0;
-      height: 0;
-      background: rgba(255,255,255,0.3);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.4s ease, height 0.4s ease;
-      z-index: 0;
-    }
-    button:active::after {
-      width: 200px;
-      height: 200px;
-    }
-    #converted-price {
-      font-weight: bold;
-      margin-top: 0.5rem;
-    }
-    footer {
-      text-align: center;
-      padding: 2rem;
-      background: #111;
-      color: #ccc;
-      font-size: 0.9rem;
-    }
-    @media (max-width: 600px) {
-      .navbar nav, .form-grid {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      .navbar {
-        flex-wrap: wrap;
-      }
-    }
-    .dark-mode .form-grid input,
-    .dark-mode .form-grid select,
-    .dark-mode textarea {
-      background: #1e1e1e;
-      color: #fff;
-      border: 1px solid #333;
-    }
-  </style>
-</head>
-<body>
-  <div id="particles-js"></div>
-  <header class="navbar">
-    <img src="logo.png" alt="MCI Logo" class="logo" />
-    <nav>
-      <a href="#order">立即下單</a>
-      <a href="#upload">上傳憑證</a>
-      <a href="#contact">聯絡客服</a>
-      <button id="theme-toggle" onclick="toggleTheme()">切換主題</button>
-    </nav>
-  </header>
+:root {
+  --primary: #0ff1ce;      /* 主題色，代表亮眼的青色 */
+  --bg-light: #f5f5f5;     /* 淺色背景 */
+  --bg-dark: #0d1117;      /* 深色背景 */
+  --text-light: #ffffff;   /* 亮色字體 */
+  --text-dark: #1f1f1f;    /* 深色字體 */
+  --gradient: linear-gradient(135deg, #0ff1ce, #7f00ff); /* 漸變背景 */
+}
 
-  <!-- 其他內容依照 index.html 實作即可插入此處 -->
+body {
+  font-family: 'Orbitron', sans-serif;  /* 使用Orbitron字體，這是一種現代且帶有科技感的字體 */
+  margin: 0;
+  background: var(--bg-light);          /* 預設背景顏色 */
+  color: var(--text-dark);              /* 預設字體顏色 */
+  transition: background 0.3s, color 0.3s; /* 背景與字體顏色過渡動畫 */
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
-  <script>
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && prefersDark)) {
-      document.body.classList.add('dark-mode');
-    }
-    function toggleTheme() {
-      document.body.classList.toggle('dark-mode');
-      const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-      localStorage.setItem('theme', mode);
-    }
+body.dark-mode {
+  background: var(--bg-dark);          /* 深色模式的背景 */
+  color: var(--text-light);             /* 深色模式的字體顏色 */
+}
 
-    // 粒子背景動畫
-    window.addEventListener('DOMContentLoaded', () => {
-      particlesJS('particles-js', {
-        particles: {
-          number: { value: 80 },
-          size: { value: 3 },
-          color: { value: '#0ff1ce' },
-          line_linked: { enable: true, distance: 150, color: '#0ff1ce' },
-          move: { enable: true, speed: 2 }
-        },
-        interactivity: {
-          events: { onhover: { enable: true, mode: 'repulse' } },
-          modes: { repulse: { distance: 100 } }
-        }
-      });
-    });
-  </script>
-</body>
-</html>
+#particles-js {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+}
+
+.navbar {
+  background: var(--gradient);        /* 背景使用漸變效果 */
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.navbar nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.navbar nav a, #theme-toggle, #lang-toggle {
+  margin-left: 1rem;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border: 2px solid white;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  background: none;
+  user-select: none;
+  transition: background 0.3s, color 0.3s;
+}
+
+.navbar nav a:hover,
+#theme-toggle:hover,
+#lang-toggle:hover {
+  background: white;
+  color: var(--primary); /* 背景白色，文字顏色為主題色 */
+}
+
+.logo {
+  max-height: 50px;
+}
+
+.banner {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: radial-gradient(circle at top, #0ff1ce33, transparent);  /* 漸變背景 */
+  animation: fadeIn 2s ease-in;  /* 動畫效果 */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+section {
+  padding: 2rem;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 90%;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 使表單元素根據螢幕寬度自適應排列 */
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.form-grid input, .form-grid select, textarea {
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  width: 100%;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+button {
+  background: var(--primary);     /* 按鈕背景色使用主題色 */
+  color: black;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+button:hover {
+  transform: scale(1.05);               /* 滑鼠懸停時放大效果 */
+  box-shadow: 0 0 10px #0ff1ce99;       /* 放大效果伴隨著亮光 */
+}
+
+button:active::after {
+  width: 200px;
+  height: 200px;
+}
+
+#converted-price {
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  background: #111;
+  color: #ccc;
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+
+@media (max-width: 600px) {
+  .navbar nav, .form-grid {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+.dark-mode .form-grid input,
+.dark-mode .form-grid select,
+.dark-mode textarea {
+  background: #1e1e1e;
+  color: #fff;
+  border: 1px solid #333;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
+
+#bank-info-container {
+  margin-top: 1.5rem;
+}
