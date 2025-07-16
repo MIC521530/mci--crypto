@@ -14,30 +14,61 @@
       --text-light: #fff;
       --text-dark: #000;
     }
-    body {
-      font-family: 'Orbitron', sans-serif;
+
+    html, body {
       margin: 0;
-      padding: 2rem;
-      background: var(--bg-light);
+      padding: 0;
+      height: 100%;
+      font-family: 'Orbitron', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body {
+      background-color: var(--bg-light);
       color: var(--text-dark);
       transition: background 0.3s, color 0.3s;
+      position: relative;
     }
+
     body.dark-mode {
-      background: var(--bg-dark);
+      background-color: var(--bg-dark);
       color: var(--text-light);
     }
-    h1 { text-align: center; }
+
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.9;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .toggle-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
     label {
       display: block;
       margin: 1rem 0 0.5rem;
       font-weight: bold;
     }
+
     select, input {
       padding: 0.6rem;
       width: 100%;
       max-width: 400px;
       margin-bottom: 1rem;
     }
+
     .btn {
       background: var(--primary);
       border: none;
@@ -46,19 +77,31 @@
       cursor: pointer;
       margin: 1rem 0;
     }
-    .toggle-row {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
+
     #bank-info-container img {
       margin-top: 1rem;
       max-width: 200px;
     }
+
+    form {
+      max-width: 500px;
+      margin: auto;
+      background-color: rgba(255,255,255,0.85);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(0,255,255,0.2);
+      backdrop-filter: blur(8px);
+    }
+
+    body.dark-mode form {
+      background-color: rgba(30,30,30,0.7);
+      box-shadow: 0 0 15px rgba(0,255,255,0.5);
+    }
   </style>
 </head>
 <body>
+  <div id="particles-js"></div>
+
   <div class="toggle-row">
     <button id="theme-toggle">🌗 主題切換</button>
     <button id="lang-toggle">🌐 語言切換</button>
@@ -91,11 +134,44 @@
   </form>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: '#0ff1ce' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.3 },
+        size: { value: 3 },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: '#0ff1ce',
+          opacity: 0.2,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 2
+        }
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: {
+          onhover: { enable: true, mode: 'grab' },
+          onclick: { enable: true, mode: 'push' }
+        },
+        modes: {
+          grab: { distance: 200, line_linked: { opacity: 0.4 } },
+          push: { particles_nb: 2 }
+        }
+      },
+      retina_detect: true
+    });
+
     const themeToggleBtn = document.getElementById('theme-toggle');
     const langToggleBtn = document.getElementById('lang-toggle');
 
-    // 初始主題
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && prefersDark)) {
       document.body.classList.add('dark-mode');
@@ -107,7 +183,6 @@
       localStorage.setItem('theme', mode);
     });
 
-    // 語言切換
     let isZh = true;
     langToggleBtn.addEventListener('click', () => {
       isZh = !isZh;
@@ -120,7 +195,6 @@
       updateConvertedPrice();
     });
 
-    // 匯率查詢
     async function fetchPrices() {
       try {
         const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether,binancecoin,ripple,dogecoin&vs_currencies=twd');
@@ -142,9 +216,7 @@
       }
       const rate = prices[crypto]?.twd || 0;
       const amount = (twd / rate).toFixed(6);
-      el.innerText = isZh
-        ? `約可換取：${amount} 顆`
-        : `You can get: ${amount} coins`;
+      el.innerText = isZh ? `約可換取：${amount} 顆` : `You can get: ${amount} coins`;
     }
 
     document.getElementById('crypto-select').addEventListener('change', () => {
@@ -153,7 +225,6 @@
     });
     document.getElementById('twd-amount').addEventListener('input', updateConvertedPrice);
 
-    // 動態 QR 或銀行顯示
     function updateBankInfo() {
       const action = document.querySelector('input[name="action"]:checked').value;
       const crypto = document.getElementById('crypto-select').value;
@@ -169,14 +240,8 @@
 
       if (action === 'buy') {
         document.getElementById('bank-info-container').innerHTML = isZh
-          ? `<h3>💸 匯款資訊：</h3>
-             <p>銀行名稱：樂天銀行</p>
-             <p>銀行代碼：826</p>
-             <p>帳號：81201000618469</p>`
-          : `<h3>💸 Remittance Info:</h3>
-             <p>Bank: Rakuten Bank</p>
-             <p>Code: 826</p>
-             <p>Account: 81201000618469</p>`;
+          ? `<h3>💸 匯款資訊：</h3><p>銀行名稱：樂天銀行</p><p>銀行代碼：826</p><p>帳號：81201000618469</p>`
+          : `<h3>💸 Remittance Info:</h3><p>Bank: Rakuten Bank</p><p>Code: 826</p><p>Account: 81201000618469</p>`;
       } else {
         const qr = qrMap[crypto];
         document.getElementById('bank-info-container').innerHTML = isZh
@@ -186,19 +251,16 @@
     }
 
     document.querySelectorAll('input[name="action"]').forEach(el => {
-      el.addEventListener('change', () => {
-        updateBankInfo();
-      });
+      el.addEventListener('change', updateBankInfo);
     });
 
-    // 表單送出
     document.getElementById('trade-form').addEventListener('submit', e => {
       e.preventDefault();
       Swal.fire({
         icon: 'success',
-        title: isZh ? '訂單已送出！' : 'Order Submitted!',
-        text: isZh ? '我們會儘速與您聯絡。' : 'We will contact you shortly.',
-        timer: 2000,
+        title: isZh ? '訂單已送出，審核無誤後5～15分，完成訂單 : 'The order has been sent. It will be completed in 5-15 minutes after verification.!',
+        text: isZh ? '審核無誤後5～15分鐘，完成此交易！。' : 'The transaction will be completed within 5 to 15 minutes after the review is correct!',
+        timer: 2000
         showConfirmButton: false
       });
       e.target.reset();
@@ -206,7 +268,6 @@
       updateConvertedPrice();
     });
 
-    // 初始化
     updateBankInfo();
     updateConvertedPrice();
   </script>
