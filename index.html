@@ -7,97 +7,162 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
   <style>
-    :root {
-      --primary: #0ff1ce;
-      --bg-light: #f8f9fa;
-      --bg-dark: #121212;
-      --text-light: #fff;
-      --text-dark: #000;
-    }
+  :root {
+    --primary: #0ff1ce;
+    --bg-light: #f2f6f9;
+    --bg-dark: #121212;
+    --text-light: #ffffff;
+    --text-dark: #0a0a0a;
+    --glass-white: rgba(255, 255, 255, 0.1);
+    --glass-dark: rgba(0, 0, 0, 0.4);
+    --neon: #0ff1ce;
+  }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Orbitron', sans-serif;
-      overflow-x: hidden;
-    }
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Orbitron', sans-serif;
+    overflow-x: hidden;
+    position: relative;
+  }
 
-    body {
-      background-color: var(--bg-light);
-      color: var(--text-dark);
-      transition: background 0.3s, color 0.3s;
-      position: relative;
-    }
+  body {
+    background: linear-gradient(135deg, #0a0f2c, #00172d);
+    color: var(--text-dark);
+    transition: background 0.3s, color 0.3s;
+  }
 
-    body.dark-mode {
-      background-color: var(--bg-dark);
-      color: var(--text-light);
-    }
+  body.dark-mode {
+    background: linear-gradient(135deg, #000000, #0c0c2c);
+    color: var(--text-light);
+  }
 
-    #particles-js {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      opacity: 0.9;
-    }
+  #particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    opacity: 0.6;
+  }
 
-    h1 {
-      text-align: center;
-    }
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--primary);
+    text-shadow: 0 0 5px var(--primary);
+  }
 
-    .toggle-row {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin: 1rem 0;
-    }
+  .toggle-row {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+    z-index: 1;
+    position: relative;
+  }
 
-    label {
-      display: block;
-      margin: 1rem 0 0.5rem;
-      font-weight: bold;
-    }
+  .toggle-row button {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--primary);
+    background: transparent;
+    color: var(--primary);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
 
-    select, input {
-      padding: 0.6rem;
-      width: 100%;
-      max-width: 400px;
-      margin-bottom: 1rem;
-    }
+  .toggle-row button:hover {
+    background-color: rgba(0, 255, 255, 0.1);
+  }
 
-    .btn {
-      background: var(--primary);
-      border: none;
-      padding: 0.6rem 1.5rem;
-      font-weight: bold;
-      cursor: pointer;
-      margin: 1rem 0;
-    }
+  form {
+    max-width: 520px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: var(--glass-white);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
+    position: relative;
+    animation: float-border 5s linear infinite;
+  }
 
-    #bank-info-container img {
-      margin-top: 1rem;
-      max-width: 200px;
-    }
+  body.dark-mode form {
+    background: var(--glass-dark);
+    border: 2px solid rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  }
 
-    form {
-      max-width: 500px;
-      margin: auto;
-      background-color: rgba(255,255,255,0.85);
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 0 15px rgba(0,255,255,0.2);
-      backdrop-filter: blur(8px);
+  @keyframes float-border {
+    0% {
+      box-shadow: 0 0 10px #0ff1ce, 0 0 20px transparent;
     }
+    50% {
+      box-shadow: 0 0 20px #0ff1ce, 0 0 40px rgba(0, 255, 255, 0.2);
+    }
+    100% {
+      box-shadow: 0 0 10px #0ff1ce, 0 0 20px transparent;
+    }
+  }
 
-    body.dark-mode form {
-      background-color: rgba(30,30,30,0.7);
-      box-shadow: 0 0 15px rgba(0,255,255,0.5);
-    }
-  </style>
+  label {
+    display: block;
+    margin: 1rem 0 0.5rem;
+    font-weight: bold;
+    color: inherit;
+  }
+
+  select, input {
+    padding: 0.6rem;
+    width: 100%;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: inherit;
+    border: 1px solid #0ff1ce44;
+    outline: none;
+    backdrop-filter: blur(5px);
+  }
+
+  input::placeholder {
+    color: #ccc;
+  }
+
+  .btn {
+    background: var(--primary);
+    border: none;
+    padding: 0.6rem 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: black;
+    border-radius: 10px;
+    width: 100%;
+    margin-top: 1rem;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .btn:hover {
+    box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+  }
+
+  #bank-info-container img {
+    margin-top: 1rem;
+    max-width: 200px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #0ff1ce44;
+  }
+
+  #converted-price {
+    margin-top: 0.5rem;
+    font-weight: bold;
+    color: var(--primary);
+    text-shadow: 0 0 5px var(--primary);
+  }
+</style>
 </head>
 <body>
   <div id="particles-js"></div>
