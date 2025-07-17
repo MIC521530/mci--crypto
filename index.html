@@ -15,9 +15,7 @@
       --text-dark: #0a0a0a;
       --glass-white: rgba(255, 255, 255, 0.1);
       --glass-dark: rgba(0, 0, 0, 0.4);
-      --neon: #0ff1ce;
     }
-
     html, body {
       margin: 0;
       padding: 0;
@@ -26,57 +24,47 @@
       overflow-x: hidden;
       position: relative;
     }
-
     body {
       background: linear-gradient(135deg, #0a0f2c, #00172d);
       color: var(--text-dark);
       transition: background 0.3s, color 0.3s;
     }
-
     body.dark-mode {
       background: linear-gradient(135deg, #000000, #0c0c2c);
       color: var(--text-light);
     }
-
+    /* 🧬 流體背景動畫 */
     body::before {
       content: "";
       position: fixed;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at center, rgba(0,255,255,0.1), transparent 70%),
-                  repeating-conic-gradient(from 0deg, #0ff1ce22 0deg, transparent 20deg, #0ff1ce11 40deg);
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background:
+        radial-gradient(circle at center, rgba(0,255,255,0.1), transparent 70%),
+        repeating-conic-gradient(from 0deg, #0ff1ce22 0deg, transparent 20deg, #0ff1ce11 40deg);
       animation: flowBackground 30s linear infinite;
       z-index: -2;
       opacity: 0.25;
       pointer-events: none;
-      transform: rotate(0deg);
       filter: blur(30px);
     }
-
     @keyframes flowBackground {
       0% { transform: rotate(0deg) scale(1); }
       100% { transform: rotate(360deg) scale(1.1); }
     }
-
     #particles-js {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: -1;
-      width: 100%;
-      height: 100%;
       opacity: 0.6;
     }
-
     h1 {
       text-align: center;
       font-size: 2rem;
       color: var(--primary);
       text-shadow: 0 0 5px var(--primary);
     }
-
     .toggle-row {
       display: flex;
       justify-content: center;
@@ -85,7 +73,6 @@
       z-index: 1;
       position: relative;
     }
-
     .toggle-row button {
       padding: 0.5rem 1rem;
       border: 1px solid var(--primary);
@@ -95,11 +82,9 @@
       cursor: pointer;
       transition: background 0.3s;
     }
-
     .toggle-row button:hover {
       background-color: rgba(0, 255, 255, 0.1);
     }
-
     form {
       max-width: 520px;
       margin: 2rem auto;
@@ -109,27 +94,23 @@
       background: var(--glass-white);
       border: 2px solid rgba(255, 255, 255, 0.1);
       box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
+      position: relative;
       animation: float-border 5s linear infinite;
     }
-
     body.dark-mode form {
       background: var(--glass-dark);
-      border: 2px solid rgba(0, 255, 255, 0.1);
       box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
     }
-
     @keyframes float-border {
-      0% { box-shadow: 0 0 10px #0ff1ce, 0 0 20px transparent; }
-      50% { box-shadow: 0 0 20px #0ff1ce, 0 0 40px rgba(0, 255, 255, 0.2); }
-      100% { box-shadow: 0 0 10px #0ff1ce, 0 0 20px transparent; }
+      0% { box-shadow: 0 0 10px var(--primary), 0 0 20px transparent; }
+      50% { box-shadow: 0 0 20px var(--primary), 0 0 40px rgba(0,255,255,0.2); }
+      100% { box-shadow: 0 0 10px var(--primary), 0 0 20px transparent; }
     }
-
     label {
       display: block;
       margin: 1rem 0 0.5rem;
       font-weight: bold;
     }
-
     select, input {
       padding: 0.6rem;
       width: 100%;
@@ -138,41 +119,35 @@
       color: inherit;
       border: 1px solid #0ff1ce44;
       backdrop-filter: blur(5px);
+      font-family: 'Orbitron', sans-serif;
     }
-
-    input::placeholder {
-      color: #ccc;
+    select:hover {
+      animation: glowSelect 1s infinite alternate;
     }
-
+    @keyframes glowSelect {
+      from { box-shadow: 0 0 5px #0ff1ce66; }
+      to { box-shadow: 0 0 20px #0ff1ceaa; }
+    }
     .btn {
       background: var(--primary);
       border: none;
       padding: 0.6rem 1.5rem;
-      font-weight: bold;
-      cursor: pointer;
-      color: black;
       border-radius: 10px;
       width: 100%;
       margin-top: 1rem;
+      font-weight: bold;
+      cursor: pointer;
       transition: box-shadow 0.3s ease;
     }
-
     .btn:hover {
       box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
     }
-
-    select:hover {
-      box-shadow: 0 0 8px var(--primary);
-      transition: all 0.3s ease;
-    }
-
     #bank-info-container img {
       margin-top: 1rem;
       max-width: 200px;
       border-radius: 10px;
       box-shadow: 0 0 10px #0ff1ce44;
     }
-
     #converted-price {
       margin-top: 0.5rem;
       font-weight: bold;
@@ -183,12 +158,11 @@
 </head>
 <body>
   <div id="particles-js"></div>
-
+  <audio id="order-sound" src="lofi.mp3" preload="auto"></audio>
   <div class="toggle-row">
     <button id="theme-toggle">🌗 主題切換</button>
     <button id="lang-toggle">🌐 語言切換</button>
   </div>
-
   <h1 id="title">買 / 賣加密貨幣</h1>
 
   <form id="trade-form">
@@ -213,143 +187,86 @@
     <button type="submit" class="btn">送出訂單</button>
   </form>
 
-  <audio id="order-sound" preload="auto">
-    <source src="https://cdn.pixabay.com/download/audio/2022/10/03/audio_456d9519f0.mp3?filename=lofi-study-112191.mp3" type="audio/mp3">
-  </audio>
-
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-    particlesJS('particles-js', {
-      particles: {
-        number: { value: 80, density: { enable: true, value_area: 800 } },
-        color: { value: '#0ff1ce' },
-        shape: { type: 'circle' },
-        opacity: { value: 0.3 },
-        size: { value: 3 },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: '#0ff1ce',
-          opacity: 0.2,
-          width: 1
-        },
-        move: {
-          enable: true,
-          speed: 2
-        }
-      },
-      interactivity: {
-        detect_on: 'canvas',
-        events: {
-          onhover: { enable: true, mode: 'grab' },
-          onclick: { enable: true, mode: 'push' }
-        },
-        modes: {
-          grab: { distance: 200, line_linked: { opacity: 0.4 } },
-          push: { particles_nb: 2 }
-        }
-      },
-      retina_detect: true
-    });
+    particlesJS('particles-js',{particles:{number:{value:80,density:{enable:true,value_area:800}},color:{value:'#0ff1ce'},shape:{type:'circle'},opacity:{value:0.3},size:{value:3},line_linked:{enable:true,distance:150,color:'#0ff1ce',opacity:0.2,width:1},move:{enable:true,speed:2}},interactivity:{detect_on:'canvas',events:{onhover:{enable:true,mode:'grab'},onclick:{enable:true,mode:'push'}},modes:{grab:{distance:200,line_linked:{opacity:0.4}},push:{particles_nb:2}}},retina_detect:true});
 
     const themeToggleBtn = document.getElementById('theme-toggle');
     const langToggleBtn = document.getElementById('lang-toggle');
-    const audio = document.getElementById('order-sound');
-
+    const sound = document.getElementById('order-sound');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && prefersDark)) {
+    if(localStorage.getItem('theme')==='dark'||(!localStorage.getItem('theme')&&prefersDark)){
       document.body.classList.add('dark-mode');
     }
-
-    themeToggleBtn.addEventListener('click', () => {
+    themeToggleBtn.addEventListener('click',()=>{
       document.body.classList.toggle('dark-mode');
-      const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-      localStorage.setItem('theme', mode);
+      localStorage.setItem('theme',document.body.classList.contains('dark-mode')?'dark':'light');
+    });
+    let isZh=true;
+    langToggleBtn.addEventListener('click',()=>{
+      isZh=!isZh;
+      document.getElementById('title').innerText = isZh?'買 / 賣加密貨幣':'Buy / Sell Crypto';
+      document.getElementById('label-buy').innerText = isZh?'我要買':'Buy';
+      document.getElementById('label-sell').innerText = isZh?'我要賣':'Sell';
+      document.getElementById('label-crypto').innerText = isZh?'選擇幣種':'Select Crypto';
+      document.getElementById('label-twd').innerText = isZh?'輸入新台幣金額 (TWD)':'Enter TWD amount';
+      updateBankInfo(); updateConvertedPrice();
     });
 
-    let isZh = true;
-    langToggleBtn.addEventListener('click', () => {
-      isZh = !isZh;
-      document.getElementById('title').innerText = isZh ? '買 / 賣加密貨幣' : 'Buy / Sell Crypto';
-      document.getElementById('label-buy').innerText = isZh ? '我要買' : 'Buy';
-      document.getElementById('label-sell').innerText = isZh ? '我要賣' : 'Sell';
-      document.getElementById('label-crypto').innerText = isZh ? '選擇幣種' : 'Select Crypto';
-      document.getElementById('label-twd').innerText = isZh ? '輸入新台幣金額 (TWD)' : 'Enter TWD amount';
-      updateBankInfo();
-      updateConvertedPrice();
-    });
+    async function fetchPrices(){
+      try{ const res=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether,binancecoin,ripple,dogecoin&vs_currencies=twd'); return await res.json();}
+      catch{ return null;}
+    }
+    document.getElementById('crypto-select').addEventListener('mouseenter',()=>{ /* 為懸停動效保留 */ });
+    document.getElementById('crypto-select').addEventListener('change',()=>{updateConvertedPrice();updateBankInfo();});
+    document.getElementById('twd-amount').addEventListener('input',updateConvertedPrice);
 
-    async function fetchPrices() {
-      try {
-        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether,binancecoin,ripple,dogecoin&vs_currencies=twd');
-        return await res.json();
-      } catch (err) {
-        console.error(err);
-        return null;
-      }
+    async function updateConvertedPrice(){
+      const prices=await fetchPrices();
+      const crypto=document.getElementById('crypto-select').value;
+      const twd=Number(document.getElementById('twd-amount').value);
+      const el=document.getElementById('converted-price');
+      if(!prices||!twd){ el.innerText=isZh?'請輸入金額...':'Please enter amount...'; return;}
+      const rate=prices[crypto]?.twd||0;
+      el.innerText = isZh?`約可換取：${(twd/rate).toFixed(6)} 顆`:`You can get: ${(twd/rate).toFixed(6)} coins`;
     }
 
-    async function updateConvertedPrice() {
-      const prices = await fetchPrices();
-      const crypto = document.getElementById('crypto-select').value;
-      const twd = Number(document.getElementById('twd-amount').value);
-      const el = document.getElementById('converted-price');
-      if (!prices || !twd) {
-        el.innerText = isZh ? '請輸入金額...' : 'Please enter amount...';
-        return;
-      }
-      const rate = prices[crypto]?.twd || 0;
-      const amount = (twd / rate).toFixed(6);
-      el.innerText = isZh ? `約可換取：${amount} 顆` : `You can get: ${amount} coins`;
-    }
-
-    function updateBankInfo() {
-      const action = document.querySelector('input[name="action"]:checked').value;
-      const crypto = document.getElementById('crypto-select').value;
-      const qrMap = {
-        bitcoin: 'btc-qr.png', ethereum: 'eth-qr.png', tether: 'usdt-qr.png', binancecoin: 'bnb-qr.png', ripple: 'xrp-qr.png', dogecoin: 'doge-qr.png'
-      };
-      if (action === 'buy') {
-        document.getElementById('bank-info-container').innerHTML = isZh
-          ? `<h3>💸 匯款資訊：</h3><p>銀行名稱：樂天銀行</p><p>銀行代碼：826</p><p>帳號：81201000618469</p>`
-          : `<h3>💸 Remittance Info:</h3><p>Bank: Rakuten Bank</p><p>Code: 826</p><p>Account: 81201000618469</p>`;
+    function updateBankInfo(){
+      const action=document.querySelector('input[name="action"]:checked').value;
+      const crypto=document.getElementById('crypto-select').value;
+      const qrMap={bitcoin:'btc-qr.png',ethereum:'eth-qr.png',tether:'usdt-qr.png',binancecoin:'bnb-qr.png',ripple:'xrp-qr.png',dogecoin:'doge-qr.png'};
+      const container=document.getElementById('bank-info-container');
+      if(action==='buy'){
+        container.innerHTML = isZh?
+          `<h3>💸 匯款資訊：</h3><p>銀行名稱：樂天銀行</p><p>銀行代碼：826</p><p>帳號：81201000618469</p>`:
+          `<h3>💸 Remittance Info:</h3><p>Bank: Rakuten Bank</p><p>Code: 826</p><p>Account: 81201000618469</p>`;
       } else {
-        const qr = qrMap[crypto];
-        document.getElementById('bank-info-container').innerHTML = isZh
-          ? `<h3>📥 請掃描以下錢包地址進行轉帳：</h3><img src="${qr}" alt="${crypto} QR">`
-          : `<h3>📥 Please scan the wallet QR code:</h3><img src="${qr}" alt="${crypto} QR">`;
+        const qr=qrMap[crypto];
+        container.innerHTML = isZh?
+          `<h3>📥 請掃描以下錢包地址進行轉帳：</h3><img src="${qr}" alt="${crypto} QR" class="rotate-crypto">`:
+          `<h3>📥 Please scan the wallet QR code:</h3><img src="${qr}" alt="${crypto} QR" class="rotate-crypto">`;
       }
     }
+    async function updateConvertedPrice(){ /* 已定義，如上 */ }
+    document.querySelectorAll('input[name="action"]').forEach(el=>el.addEventListener('change',updateBankInfo));
 
-    document.querySelectorAll('input[name="action"]').forEach(el => {
-      el.addEventListener('change', updateBankInfo);
-    });
-
-    document.getElementById('crypto-select').addEventListener('change', () => {
-      updateConvertedPrice();
-      updateBankInfo();
-    });
-    document.getElementById('twd-amount').addEventListener('input', updateConvertedPrice);
-
-    document.getElementById('trade-form').addEventListener('submit', e => {
+    document.getElementById('trade-form').addEventListener('submit',e=>{
       e.preventDefault();
-      audio.play();
+      sound.play().catch(console.warn);
       Swal.fire({
-        icon: 'success',
-        title: isZh ? '訂單已送出！' : 'Order Submitted!',
-        text: isZh ? '審核無誤後 5～15 分鐘內完成交易。' : 'Your transaction will be completed in 5–15 minutes after review.',
-        timer: 2500,
-        showConfirmButton: false
+        icon:'success',
+        title: isZh?'訂單已送出！':'Order Submitted!',
+        text: isZh?'我們會儘速與您聯絡。':'We will contact you shortly.',
+        timer:2000,
+        showConfirmButton:false
       });
       e.target.reset();
-      updateBankInfo();
-      updateConvertedPrice();
+      updateBankInfo(); updateConvertedPrice();
     });
-
-    updateBankInfo();
-    updateConvertedPrice();
+    updateBankInfo(); updateConvertedPrice();
   </script>
 </body>
 </html>
+
 
