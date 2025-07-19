@@ -69,50 +69,22 @@ const qrMap = {
 };
 
 // 顯示 QR 與地址
-function updateQR(){
+function updateQR() {
   const action = document.querySelector('input[name="action"]:checked').value;
   const crypto = document.getElementById('crypto-select').value;
-  const c = document.getElementById('qr-display');
+  const qrContainer = document.getElementById('qr-display');
 
-  if(action==='sell' && qrMap[crypto]){
+  if (action === 'sell' && qrMap[crypto]) {
     const { img, addr } = qrMap[crypto];
-
-    // 幣種對應網絡與錢包地址
-    const walletInfoMap = {
-      bitcoin: { network: 'Bitcoin', address: 'bc1pvrx4wwuwn6wf3a9ed4fu6enwrcdexdad784elfq6h5y3eejdgdzs0emuvf' },
-      ethereum: { network: 'Ethereum', address: '0x705d2f673516067376daad1fbb2677abd7fd7bc1' },
-      tether: { network: 'Tron', address: 'TXyDywmpLUrjn4hr5LFMC3rKPmGd7a6zFp' },
-      binancecoin: { network: 'BNB Chain', address: '0x705d2f673516067376daad1fbb2677abd7fd7bc1' },
-      ripple: { network: 'BNB Chain', address: '0x705d2f673516067376daad1fbb2677abd7fd7bc1' },
-      dogecoin: { network: 'Dogecoin', address: 'DNwNYeeWSfVAKWR9gFcLvh27mcmZF8zr5n' }
-    };
-
-    const wallet = walletInfoMap[crypto];
-    const lang = isZh ? {
-      info: "錢包資訊", network: "錢包網絡", address: "錢包地址"
-    } : {
-      info: "Wallet Info", network: "Network", address: "Address"
-    };
-
-    c.innerHTML = `
-      <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;">
-        <div>
-          <h3>${isZh ? '📲 接收地址：' : '📲 Receive Address:'}</h3>
-          <p style="word-break: break-all;">${addr}</p>
-          <img src="assets/qr/${img}" alt="QR Code" style="max-width:200px;" />
-        </div>
-        <div style="line-height: 1.8;">
-          <h3>🔐 ${lang.info}</h3>
-          <p><strong>${lang.network}:</strong> ${wallet.network}</p>
-          <p><strong>${lang.address}:</strong><br/> ${wallet.address}</p>
-        </div>
-      </div>
+    qrContainer.innerHTML = `
+      <h3>${isZh ? '📲 接收地址：' : '📲 Receive Address:'}</h3>
+      <p style="word-break: break-all;">${addr}</p>
+      <img src="assets/qr/${img}" alt="QR Code" style="max-width:200px;" />
     `;
   } else {
-    c.innerHTML = '';
+    qrContainer.innerHTML = "";
   }
 }
-
 
 // 匯率換算
 async function fetchPrices() {
