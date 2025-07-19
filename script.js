@@ -72,17 +72,71 @@ const qrMap = {
 function updateQR() {
   const action = document.querySelector('input[name="action"]:checked').value;
   const crypto = document.getElementById('crypto-select').value;
-  const qrContainer = document.getElementById('qr-display');
+  const c = document.getElementById('qr-display');
+  const walletInfoContainer = document.getElementById('wallet-info-container');
 
   if (action === 'sell' && qrMap[crypto]) {
     const { img, addr } = qrMap[crypto];
-    qrContainer.innerHTML = `
+    let walletInfo = '';
+
+    // 根據選擇的幣種更新錢包資訊
+    switch (crypto) {
+      case 'bitcoin':
+        walletInfo = `
+          <h3>錢包資訊:</h3>
+          <p>錢包網絡: Bitcoin</p>
+          <p>錢包地址: bc1pvrx4wwuwn6wf3a9ed4fu6enwrcdexdad784elfq6h5y3eejdgdzs0emuvf</p>
+        `;
+        break;
+      case 'ethereum':
+        walletInfo = `
+          <h3>錢包資訊:</h3>
+          <p>錢包網絡: Ethereum</p>
+          <p>錢包地址: 0x705d2f673516067376daad1fbb2677abd7fd7bc1</p>
+        `;
+        break;
+      case 'tether':
+        walletInfo = `
+          <h3>錢包資訊:</h3>
+          <p>錢包網絡: Tron</p>
+          <p>錢包地址: TXyDywmpLUrjn4hr5LFMC3rKPmGd7a6zFp</p>
+        `;
+        break;
+      case 'binancecoin':
+        walletInfo = `
+          <h3>錢包資訊:</h3>
+          <p>錢包網絡: BNB Chain</p>
+          <p>錢包地址: 0x705d2f673516067376daad1fbb2677abd7fd7bc1</p>
+        `;
+        break;
+      case 'ripple':
+        walletInfo = `
+          <h3>錢包資訊:</h3>
+          <p>錢包網絡: BNB Chain</p>
+          <p>錢包地址: 0x705d2f673516067376daad1fbb2677abd7fd7bc1</p>
+        `;
+        break;
+      case 'dogecoin':
+        walletInfo = `
+          <h3>錢包資訊:</h3>
+          <p>錢包網絡: Dogecoin</p>
+          <p>錢包地址: DNwNYeeWSfVAKWR9gFcLvh27mcmZF8zr5n</p>
+        `;
+        break;
+      default:
+        walletInfo = `<p>無此幣種的錢包資訊。</p>`;
+    }
+
+    // 顯示QR和錢包資訊
+    c.innerHTML = `
       <h3>${isZh ? '📲 接收地址：' : '📲 Receive Address:'}</h3>
       <p style="word-break: break-all;">${addr}</p>
       <img src="assets/qr/${img}" alt="QR Code" style="max-width:200px;" />
     `;
+    walletInfoContainer.innerHTML = walletInfo;
   } else {
-    qrContainer.innerHTML = "";
+    c.innerHTML = '';
+    walletInfoContainer.innerHTML = '';
   }
 }
 
