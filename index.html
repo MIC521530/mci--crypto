@@ -174,11 +174,12 @@
   <section id="order">
     <h2 id="order-title">買 / 賣加密貨幣</h2>
     <form id="trade-form" autocomplete="off">
+      <!-- 買/賣選項 -->
       <div class="radio-group">
   <label><input type="radio" name="action" value="buy" checked> 我要買</label>
   <label><input type="radio" name="action" value="sell"> 我要賣</label>
 </div>
-
+      <!-- 幣種選擇區 --> 
       <div class="form-grid">
         <label>
           幣種
@@ -201,14 +202,18 @@
         </label>
       </div>
 
-      <div id="converted-price">加密幣匯率載入中...</div>
-     <div id="bank-info-container" class="margin-top-lg"></div>
-<div id="qr-display" class="margin-top-md"></div>
+    <!-- 匯率顯示區 -->
+    <div id="converted-price">加密幣匯率載入中...</div>
+     <!-- QR 圖顯示區 -->
+    <div id="qr-display" class="margin-top-md"></div>
 
-<button type="submit" class="submit-btn margin-top-lg">送出訂單</button>
+    <!-- 錢包資訊顯示區 -->
+    <div id="wallet-info-container" class="margin-top-md"></div>
 
-    </form>
-  </section>
+    <!-- 提交按鈕 -->
+    <button type="submit" class="submit-btn margin-top-lg">送出訂單</button>
+  </form>
+</section>
 
   <!-- 上傳憑證 -->
   <section id="upload">
