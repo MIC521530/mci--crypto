@@ -69,8 +69,14 @@ body.dark-mode {
   color: var(--primary); /* 背景白色，文字顏色為主題色 */
 }
 
-.logo {
-  max-height: 50px;
+.logo-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-left: 1rem;
+  background: linear-gradient(45deg, #0ff1ce, #7f00ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .banner {
