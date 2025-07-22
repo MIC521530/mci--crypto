@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>時代加密貨幣所（M.C.I）</title>
+  <title>M.C.I時代加密貨幣所</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
   <style>
@@ -159,7 +159,7 @@
   </header>
 
   <section class="banner">
-    <h1 id="hero-text">安全快速閃兑主流加密貨幣</h1>
+    <h1 id="hero-text">M.C.I 安全、快速、閃兑主流加密貨幣</h1>
     <p id="hero-sub">僅接受新台幣匯款、ATM 轉帳與加密貨幣付款</p>
   </section>
 
@@ -172,14 +172,13 @@
 
   <!-- 交易表單 -->
   <section id="order">
-    <h2 id="order-title">買 / 賣加密貨幣</h2>
+    <h2 id="order-title">M.C.I加密貨幣所</h2>
     <form id="trade-form" autocomplete="off">
-      <!-- 買/賣選項 -->
       <div class="radio-group">
   <label><input type="radio" name="action" value="buy" checked> 我要買</label>
   <label><input type="radio" name="action" value="sell"> 我要賣</label>
 </div>
-      <!-- 幣種選擇區 --> 
+
       <div class="form-grid">
         <label>
           幣種
@@ -202,18 +201,14 @@
         </label>
       </div>
 
-    <!-- 匯率顯示區 -->
-    <div id="converted-price">加密幣匯率載入中...</div>
-     <!-- QR 圖顯示區 -->
-    <div id="qr-display" class="margin-top-md"></div>
+      <div id="converted-price">加密幣匯率載入中...</div>
+     <div id="bank-info-container" class="margin-top-lg"></div>
+<div id="qr-display" class="margin-top-md"></div>
 
-    <!-- 錢包資訊顯示區 -->
-    <div id="wallet-info-container" class="margin-top-md"></div>
+<button type="submit" class="submit-btn margin-top-lg">送出訂單</button>
 
-    <!-- 提交按鈕 -->
-    <button type="submit" class="submit-btn margin-top-lg">送出訂單</button>
-  </form>
-</section>
+    </form>
+  </section>
 
   <!-- 上傳憑證 -->
   <section id="upload">
@@ -235,7 +230,7 @@
     <p>聯絡我們：</p>
     <p>LINE：love530168</p>
     <p>Telegram：MCI52168</p>
-    <p>© 2025 M.C.I 時代加密貨幣所</p>
+    <p>© 2012 M.C.I 時代加密貨幣所</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
@@ -244,7 +239,7 @@
   <script>
     // 全域文字定義
     const zh = {
-      hero: "安全快速閃兑主流加密貨幣",
+      hero: "安全快速閃兑買賣主流加密貨幣",
       sub: "僅接受新台幣匯款、ATM 轉帳與加密貨幣付款",
       orderTitle: "買 / 賣加密貨幣",
       uploadTitle: "上傳付款/轉帳證明",
@@ -316,12 +311,12 @@
       ripple: 'Ripple (XRP)', dogecoin: 'Dogecoin (DOGE)'
     };
     const qrMap = {
-      bitcoin: { img: 'btc-qr.png', network: 'Bitcoin' , addr: 'bc1pvrx4wwuwn6wf3a9ed4fu6enwrcdexdad784elfq6h5y3eejdgdzs0emuvf' },
-      ethereum: { img: 'eth-qr.png', network: 'Ethereun' , addr: '0x705d2f673516067376daad1fbb2677abd7fd7bc1' },
-      tether: { img: 'usdt-qr.png', network:  'Tron' , addr: 'TXyDywmpLUrjn4hr5LFMC3rKPmGd7a6zFp' },
-      binancecoin: { img: 'bnb-qr.png', network: 'Bitcoin' , addr: '0x705d2f673516067376daad1fbb2677abd7fd7bc1' },
-      ripple: { img: 'xrp-qr.png', network: 'Bitcoin' , addr: '0x705d2f673516067376daad1fbb2677abd7fd7bc1' },
-      dogecoin: { img: 'doge-qr.png', network: 'dogecoin' , addr: 'DNwNYeeWSfVAKWR9gFcLvh27mcmZF8zr5n' }
+      bitcoin: { img: 'btc-qr.png', addr: '網絡 : Bitcoin.        地址 : bc1pvrx4wwuwn6wf3a9ed4fu6enwrcdexdad784elfq6h5y3eejdgdzs0emuvf' },
+      ethereum: { img: 'eth-qr.png', addr: '網絡 : Ethereun.         地址 : 0x705d2f673516067376daad1fbb2677abd7fd7bc1' },
+      tether: { img: 'usdt-qr.png', addr: '網絡 : Tron.        地址 : TXyDywmpLUrjn4hr5LFMC3rKPmGd7a6zFp' },
+      binancecoin: { img: 'bnb-qr.png', addr: '網絡 : BNB Chain.        地址 : 0x705d2f673516067376daad1fbb2677abd7fd7bc1' },
+      ripple: { img: 'xrp-qr.png', addr: '網絡 : BNB Chain.         地址 : 0x705d2f673516067376daad1fbb2677abd7fd7bc1' },
+      dogecoin: { img: 'doge-qr.png', addr: '網絡 : Dogecoin.          地址 : DNwNYeeWSfVAKWR9gFcLvh27mcmZF8zr5n' }
     };
 
     let isZh = true;
@@ -417,7 +412,7 @@
       e.preventDefault();
       Swal.fire({
         icon:'success',
-        title: isZh?'訂單已送出,核對無誤後，訂單即可完成！':'The order has been sent. After verification, the order can be completed.',
+       title: isZh?'訂單已送出,核對無誤後，訂單即可完成！':'The order has been sent. After verification, the order can be completed.',
         text: isZh?'請耐心等齁，您的訂單即將完成。':'Please wait patiently, your order will be completed soon.',
         showConfirmButton:false,
         timer:2000
