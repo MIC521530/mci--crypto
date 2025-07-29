@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>感謝您的提交</title>
+  <style>
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: #0d1117;
+      color: #0ff1ce;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    a {
+      text-decoration: none;
+      padding: 0.7rem 1.2rem;
+      background: #0ff1ce;
+      color: #000;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    a:hover {
+      background: #7f00ff;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <h1>感謝您的提交！</h1>
+  <p>我們已經收到您的訂單,核對無誤,將盡快完成您的訂單,感謝您的支持,M.C.I幣所謝謝您。</p>
+  <p id="countdown">5 秒後自動返回首頁...</p>
+  <a href="index.html">立即返回首頁</a>
+
+  <script>
+    let seconds = 5;
+    const countdownEl = document.getElementById('countdown');
+    const timer = setInterval(() => {
+      seconds--;
+      countdownEl.textContent = seconds + " 秒後自動返回首頁...";
+      if (seconds <= 0) {
+        clearInterval(timer);
+        window.location.href = "index.html";
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
