@@ -173,47 +173,52 @@
   <!-- 交易表單 -->
   <section id="order">
     <h2 id="order-title">M.C.I加密貨幣所</h2>
-    <form id="trade-form" autocomplete="off">
-      <div class="radio-group">
-  <label><input type="radio" name="action" value="buy" checked> 我要買</label>
-  <label><input type="radio" name="action" value="sell"> 我要賣</label>
-</div>
+    <form id="trade-form" target="_blank" action="https://formsubmit.co/love521530@gmail.com" method="POST" autocomplete="off">
+  <!-- 防止驗證並設定感謝頁 -->
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="_next" value="thankyou.html">
 
-      <div class="form-grid">
-        <label>
-          幣種
-          <select id="crypto-select" name="crypto">
-            <option value="bitcoin">比特幣 (BTC)</option>
-            <option value="ethereum">以太幣 (ETH)</option>
-            <option value="tether">泰達幣 (USDT)</option>
-            <option value="binancecoin">幣安幣 (BNB)</option>
-            <option value="ripple">瑞波幣 (XRP)</option>
-            <option value="dogecoin">狗狗幣 (DOGE)</option>
-          </select>
-        </label>
-        <label>
-          新台幣金額 (TWD)
-          <input type="number" id="twd-amount" placeholder="輸入新台幣金額" min="1" required />
-        </label>
-        <label>
-          你的錢包地址
-          <input type="text" id="wallet-address" placeholder="請輸入錢包地址" required />
-        </label>
-      </div>
+  <div class="radio-group">
+    <label><input type="radio" name="action" value="buy" checked> 我要買</label>
+    <label><input type="radio" name="action" value="sell"> 我要賣</label>
+  </div>
 
-      <div id="converted-price">加密幣匯率載入中...</div>
-     <div id="bank-info-container" class="margin-top-lg"></div>
-<div id="qr-display" class="margin-top-md"></div>
+  <div class="form-grid">
+    <label>
+      幣種
+      <select id="crypto-select" name="crypto">
+        <option value="bitcoin">比特幣 (BTC)</option>
+        <option value="ethereum">以太幣 (ETH)</option>
+        <option value="tether">泰達幣 (USDT)</option>
+        <option value="binancecoin">幣安幣 (BNB)</option>
+        <option value="ripple">瑞波幣 (XRP)</option>
+        <option value="dogecoin">狗狗幣 (DOGE)</option>
+      </select>
+    </label>
+    <label>
+      新台幣金額 (TWD)
+      <input type="number" id="twd-amount" name="twd-amount" placeholder="輸入新台幣金額" min="1" required />
+    </label>
+    <label>
+      你的錢包地址
+      <input type="text" id="wallet-address" name="wallet-address" placeholder="請輸入錢包地址" required />
+    </label>
+  </div>
 
-<button type="submit" class="submit-btn margin-top-lg">送出訂單</button>
+  <div id="converted-price">加密幣匯率載入中...</div>
+  <div id="bank-info-container" class="margin-top-lg"></div>
+  <div id="qr-display" class="margin-top-md"></div>
 
-    </form>
+  <button type="submit" class="submit-btn margin-top-lg">送出訂單</button>
+</form>
   </section>
 
   <!-- 上傳憑證 -->
   <section id="upload">
     <h2 id="upload-title">上傳付款/轉帳證明</h2>
     <form action="https://formsubmit.co/love521530@gmail.com" method="POST" enctype="multipart/form-data">
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="_next" value="thankyou.html">
     <label for="upload">上傳轉帳截圖：</label>
 <input type="file" id="upload" name="upload" accept="image/*" required class="file-upload" />
 
@@ -443,5 +448,7 @@
     });
   </script>
 </body>
+</html>
+
 </html>
 
