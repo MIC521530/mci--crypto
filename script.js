@@ -138,20 +138,7 @@ function updateBankInfo() {
   updateQR(); // 切換買/賣時一併更新 QR
 }
 
-// 表單送出提示
-document.getElementById('trade-form').addEventListener('submit', (e) => {
-  e.preventDefault();
-  Swal.fire({
-    icon: 'success',
-    title: isZh ? '訂單已送出！' : 'Order Submitted!',
-    text: isZh ? '我們會儘速與您聯絡確認。' : 'We will contact you shortly.',
-    showConfirmButton: false,
-    timer: 2000
-  });
-  e.target.reset();
-  updateConvertedPrice();
-  updateQR();
-});
+
 
 // 綁定事件
 document.getElementById('crypto-select').addEventListener('change', () => {
@@ -170,3 +157,4 @@ document.querySelectorAll('input[name="action"]').forEach(el =>
 updateBankInfo();
 updateConvertedPrice();
 updateQR();
+
